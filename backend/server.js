@@ -104,22 +104,13 @@ app.get('/api/debug/players', async (req, res) => {
     }
 });
 
-// Serve React Frontend in Production
-if (process.env.NODE_ENV === 'production') {
-    // Serve static files from React build
-    app.use(express.static(path.join(__dirname, '../frontend/dist')));
-    
-    // Handle React routing, return all requests to React app
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-    });
-} else {
-    app.get('/', (req, res) => {
-        res.json({ success: true, message: 'RPL API is running in development mode 🏏' });
-    });
-}
+// Serve React Frontend in Production (not needed for Vercel - separate deployments)
+// Root route for backend
+app.get('/', (req, res) => {
+    res.json({ success: true, message: 'RPL API is running 🏏', version: '1.0.0' });
+});
 
-// 404 handler for API routes only (in development)
+// 404 handler for API routes
 app.use('/api/*', (req, res) => res.status(404).json({ success: false, message: 'API route not found' }));
 
 // Error handler
@@ -128,9 +119,13 @@ app.use((err, req, res, next) => {
     res.status(500).json({ success: false, message: err.message || 'Internal Server Error' });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🏏 RPL Server running on :${PORT}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+        console.log(`🏏 RPL Server running on http://localhost:${PORT}`);
+    });
+}
 
+// Export for Vercel
 module.exports = app;
