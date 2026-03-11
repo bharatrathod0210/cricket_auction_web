@@ -16,8 +16,8 @@ const app = express();
 app.use(cors({ 
     origin: [
         'http://localhost:5173', 
-        'https://rpl.vercel.app',
-        'https://rpl-frontend.vercel.app',
+        'https://rpl-sihor.vercel.app',
+        'https://rpl-sihor-backend.vercel.app',
         /\.vercel\.app$/
     ], 
     credentials: true 

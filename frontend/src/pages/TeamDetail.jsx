@@ -5,7 +5,7 @@ import { FiArrowLeft, FiUsers, FiDollarSign } from 'react-icons/fi';
 import { GiTrophy } from 'react-icons/gi';
 import PlayerCard from '../components/PlayerCard';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 const roleColors = { 'Batsman': '#3b82f6', 'Bowler': '#ef4444', 'All Rounder': '#d4af37', 'Wicketkeeper': '#22c55e' };
 
 const TeamDetail = () => {

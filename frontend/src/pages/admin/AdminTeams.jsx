@@ -3,7 +3,7 @@ import { teamsAPI } from '../../services/api';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 
 const emptyForm = { name: '', captainName: '', purse: 10000000, color: '#ffffff', description: '' };
 

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FiUsers } from 'react-icons/fi';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 
 const TeamCard = ({ team }) => {
     const logoSrc = team.logo

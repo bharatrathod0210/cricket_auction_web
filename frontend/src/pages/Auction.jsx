@@ -3,7 +3,7 @@ import { auctionAPI, teamsAPI } from '../services/api';
 import { FiZap, FiClock, FiUsers } from 'react-icons/fi';
 import { GiCricketBat } from 'react-icons/gi';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 
 const Auction = () => {
     const [auction, setAuction] = useState(null);

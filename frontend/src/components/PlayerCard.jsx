@@ -1,7 +1,7 @@
 import { FiUser, FiX } from 'react-icons/fi';
 import { useState } from 'react';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 
 const roleColors = {
     'Batsman': '#3b82f6',

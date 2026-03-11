@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Use Vercel backend URL for production, localhost for development
 const API_BASE = import.meta.env.PROD 
-    ? 'https://rpl-backend.vercel.app/api' 
+    ? 'https://rpl-sihor-backend.vercel.app/api' 
     : 'http://localhost:5000/api';
 
 const api = axios.create({

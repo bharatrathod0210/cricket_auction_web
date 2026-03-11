@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { playersAPI, teamsAPI } from '../services/api';
 import { GiTrophy } from 'react-icons/gi';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 
 const Leaderboard = () => {
     const [topScorers, setTopScorers] = useState([]);

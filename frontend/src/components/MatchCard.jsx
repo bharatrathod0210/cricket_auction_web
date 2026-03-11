@@ -1,6 +1,6 @@
 import { FiCalendar, FiMapPin, FiClock } from 'react-icons/fi';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-backend.vercel.app' : 'http://localhost:5000';
+const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 
 const statusColors = { live: '#ef4444', upcoming: 'var(--text-muted)', completed: '#22c55e', cancelled: '#666' };
 
