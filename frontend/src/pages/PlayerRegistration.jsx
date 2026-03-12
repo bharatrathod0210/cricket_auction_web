@@ -94,272 +94,119 @@ const PlayerRegistration = () => {
     }
 
     return (
-        <div style={{ minHeight: '100vh', paddingTop: 'var(--nav-height)', background: 'var(--bg-primary)' }}>
-            {/* Header */}
-            <div style={{ 
-                background: 'var(--bg-card)', 
-                borderBottom: '1px solid var(--border)',
-                padding: '24px 0',
-                position: 'sticky',
-                top: 'var(--nav-height)',
-                zIndex: 10
-            }}>
+        <div style={{ paddingTop: 'var(--nav-height)' }}>
+            <div className="page-hero" style={{ padding: '80px 0 48px' }}>
+                <div className="section-tag">Join RPL</div>
+                <h1>Player Registration</h1>
+                <p>Register for RPL — Pay the fee, submit your details, and get ready for the auction!</p>
+            </div>
+
+            <section className="section" style={{ paddingTop: 0 }}>
                 <div className="container">
-                    <div style={{ textAlign: 'center' }}>
-                        <div className="section-tag" style={{ marginBottom: 8 }}>Join RPL</div>
-                        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: 8 }}>Player Registration</h1>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Complete payment first, then fill your details</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 40, alignItems: 'start' }}>
+
+                        {/* FORM */}
+                        <div>
+                            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xl)', padding: 32 }}>
+                                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', marginBottom: 28, textTransform: 'uppercase', letterSpacing: 2 }}>
+                                    Your Details
+                                </h2>
+                                <form onSubmit={handleSubmit} id="registration-form">
+                                    <div className="form-row">
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="reg-name">Full Name *</label>
+                                            <div style={{ position: 'relative' }}>
+                                                <FiUser style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                                <input id="reg-name" className="form-control" style={{ paddingLeft: 40 }}
+                                                    type="text" name="fullName" placeholder="Your full name" required value={form.fullName} onChange={handleChange} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="reg-mobile">Mobile Number *</label>
+                                            <div style={{ position: 'relative' }}>
+                                                <FiPhone style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                                <input id="reg-mobile" className="form-control" style={{ paddingLeft: 40 }}
+                                                    type="tel" name="mobile" placeholder="+91 XXXXX XXXXX" required value={form.mobile} onChange={handleChange} />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label className="form-label" htmlFor="reg-role">Playing Role *</label>
+                                        <select id="reg-role" className="form-control" name="role" required value={form.role} onChange={handleChange}>
+                                            <option value="">Select Role</option>
+                                            {roles.map(r => <option key={r} value={r}>{r}</option>)}
+                                        </select>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <FileUpload id="player-photo" label="Player Photo" onChange={setPlayerPhoto} accept="image/*" preview helperText="JPG, PNG up to 5MB" />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <FileUpload id="payment-screenshot" label="Payment Screenshot *" onChange={setPaymentScreenshot} accept="image/*" preview helperText="Upload after completing payment" />
+                                    </div>
+
+                                    <button type="submit" className="btn btn-primary w-full" style={{ justifyContent: 'center', marginTop: 8 }} disabled={loading} id="submit-registration">
+                                        {loading ? 'Submitting...' : 'Submit Registration'}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        {/* PAYMENT INFO */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                            <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xl)', padding: 32 }}>
+                                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', marginBottom: 20, textTransform: 'uppercase', letterSpacing: 2 }}>
+                                    💳 Payment Instructions
+                                </h3>
+
+                                <div style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)', borderRadius: 12, padding: 20, marginBottom: 20, textAlign: 'center' }}>
+                                    <div style={{ fontFamily: 'var(--font-heading)', fontSize: '2.5rem', color: 'var(--gold)', marginBottom: 4 }}>₹{REGISTRATION_FEE}</div>
+                                    <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: 1 }}>Registration Fee</div>
+                                </div>
+
+                                {/* QR Code Display - Static Image */}
+                                <div style={{
+                                    background: '#fff',
+                                    borderRadius: 12,
+                                    padding: 16,
+                                    marginBottom: 20,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    maxWidth: 300,
+                                    margin: '0 auto 20px',
+                                }}>
+                                    <img src={qrImage} alt="UPI Payment QR Code" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 8 }} />
+                                </div>
+
+                                <ul style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                                    {[
+                                        '1. Scan the QR code with any UPI app',
+                                        '2. Pay ₹100 registration fee',
+                                        '3. Complete the payment',
+                                        '4. Take screenshot of payment confirmation',
+                                        '5. Upload screenshot in the form and submit',
+                                    ].map((s, i) => (
+                                        <li key={i} style={{ display: 'flex', gap: 8 }}>
+                                            <span style={{ color: 'var(--green)' }}>✓</span>
+                                            <span>{s}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div style={{ background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', borderRadius: 12, padding: 16 }}>
+                                <div style={{ display: 'flex', gap: 10, color: 'var(--red)', fontSize: '0.85rem' }}>
+                                    <FiAlertCircle style={{ flexShrink: 0, marginTop: 2 }} />
+                                    <span>Payment screenshot is mandatory. Registration without payment proof will be rejected.</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div className="container" style={{ padding: '40px 20px', maxWidth: '800px' }}>
-                <form onSubmit={handleSubmit} id="registration-form">
-                    
-                    {/* STEP 1: PAYMENT SECTION */}
-                    <div style={{ 
-                        background: 'var(--bg-card)', 
-                        border: '1px solid var(--border)', 
-                        borderRadius: 'var(--radius-xl)', 
-                        padding: 'clamp(24px, 5vw, 40px)',
-                        marginBottom: 32
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-                            <div style={{ 
-                                width: 40, 
-                                height: 40, 
-                                borderRadius: '50%', 
-                                background: 'var(--gold)', 
-                                color: '#000',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: 'bold',
-                                fontSize: '1.2rem'
-                            }}>1</div>
-                            <h2 style={{ 
-                                fontFamily: 'var(--font-heading)', 
-                                fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', 
-                                textTransform: 'uppercase', 
-                                letterSpacing: 2,
-                                margin: 0
-                            }}>
-                                💳 Payment
-                            </h2>
-                        </div>
-
-                        {/* Registration Fee */}
-                        <div style={{ 
-                            background: 'rgba(212,175,55,0.08)', 
-                            border: '1px solid rgba(212,175,55,0.2)', 
-                            borderRadius: 12, 
-                            padding: 20, 
-                            marginBottom: 24, 
-                            textAlign: 'center' 
-                        }}>
-                            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 6vw, 3rem)', color: 'var(--gold)', marginBottom: 4 }}>
-                                ₹{REGISTRATION_FEE}
-                            </div>
-                            <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: 1 }}>
-                                Registration Fee
-                            </div>
-                        </div>
-
-                        {/* QR Code */}
-                        <div style={{
-                            background: '#fff',
-                            borderRadius: 12,
-                            padding: 16,
-                            marginBottom: 24,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            maxWidth: '100%',
-                            margin: '0 auto 24px',
-                        }}>
-                            <img 
-                                src={qrImage} 
-                                alt="UPI Payment QR Code" 
-                                style={{ 
-                                    width: '100%', 
-                                    maxWidth: 300,
-                                    height: 'auto', 
-                                    display: 'block', 
-                                    borderRadius: 8 
-                                }} 
-                            />
-                        </div>
-
-                        {/* Payment Instructions */}
-                        <div style={{ 
-                            background: 'var(--bg-elevated)', 
-                            borderRadius: 12, 
-                            padding: 20,
-                            marginBottom: 24
-                        }}>
-                            <h4 style={{ fontSize: '0.9rem', marginBottom: 12, color: 'var(--text-primary)' }}>📱 How to Pay:</h4>
-                            <ul style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: 10, margin: 0, paddingLeft: 20 }}>
-                                {[
-                                    'Scan QR code with any UPI app (GPay, PhonePe, Paytm)',
-                                    `Pay ₹${REGISTRATION_FEE} registration fee`,
-                                    'Complete the payment',
-                                    'Take screenshot of payment confirmation',
-                                    'Upload screenshot below'
-                                ].map((s, i) => (
-                                    <li key={i}>{s}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Upload Payment Screenshot */}
-                        <div className="form-group">
-                            <FileUpload 
-                                id="payment-screenshot" 
-                                label="Payment Screenshot *" 
-                                onChange={setPaymentScreenshot} 
-                                accept="image/*" 
-                                preview 
-                                helperText="Upload payment confirmation screenshot" 
-                            />
-                        </div>
-
-                        {/* Warning */}
-                        <div style={{ 
-                            background: 'rgba(239,68,68,0.05)', 
-                            border: '1px solid rgba(239,68,68,0.15)', 
-                            borderRadius: 12, 
-                            padding: 16,
-                            marginTop: 16
-                        }}>
-                            <div style={{ display: 'flex', gap: 10, color: 'var(--red)', fontSize: '0.85rem' }}>
-                                <FiAlertCircle style={{ flexShrink: 0, marginTop: 2 }} />
-                                <span>Payment screenshot is mandatory. Registration without payment proof will be rejected.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* STEP 2: PLAYER DETAILS */}
-                    <div style={{ 
-                        background: 'var(--bg-card)', 
-                        border: '1px solid var(--border)', 
-                        borderRadius: 'var(--radius-xl)', 
-                        padding: 'clamp(24px, 5vw, 40px)',
-                        marginBottom: 32
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-                            <div style={{ 
-                                width: 40, 
-                                height: 40, 
-                                borderRadius: '50%', 
-                                background: 'var(--gold)', 
-                                color: '#000',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontWeight: 'bold',
-                                fontSize: '1.2rem'
-                            }}>2</div>
-                            <h2 style={{ 
-                                fontFamily: 'var(--font-heading)', 
-                                fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', 
-                                textTransform: 'uppercase', 
-                                letterSpacing: 2,
-                                margin: 0
-                            }}>
-                                👤 Your Details
-                            </h2>
-                        </div>
-
-                        {/* Name and Mobile */}
-                        <div style={{ 
-                            display: 'grid', 
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-                            gap: 20,
-                            marginBottom: 20
-                        }}>
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="reg-name">Full Name *</label>
-                                <div style={{ position: 'relative' }}>
-                                    <FiUser style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                                    <input 
-                                        id="reg-name" 
-                                        className="form-control" 
-                                        style={{ paddingLeft: 40 }}
-                                        type="text" 
-                                        name="fullName" 
-                                        placeholder="Your full name" 
-                                        required 
-                                        value={form.fullName} 
-                                        onChange={handleChange} 
-                                    />
-                                </div>
-                            </div>
-                            
-                            <div className="form-group">
-                                <label className="form-label" htmlFor="reg-mobile">Mobile Number *</label>
-                                <div style={{ position: 'relative' }}>
-                                    <FiPhone style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                                    <input 
-                                        id="reg-mobile" 
-                                        className="form-control" 
-                                        style={{ paddingLeft: 40 }}
-                                        type="tel" 
-                                        name="mobile" 
-                                        placeholder="+91 XXXXX XXXXX" 
-                                        required 
-                                        value={form.mobile} 
-                                        onChange={handleChange} 
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Role */}
-                        <div className="form-group">
-                            <label className="form-label" htmlFor="reg-role">Playing Role *</label>
-                            <select 
-                                id="reg-role" 
-                                className="form-control" 
-                                name="role" 
-                                required 
-                                value={form.role} 
-                                onChange={handleChange}
-                            >
-                                <option value="">Select Role</option>
-                                {roles.map(r => <option key={r} value={r}>{r}</option>)}
-                            </select>
-                        </div>
-
-                        {/* Player Photo */}
-                        <div className="form-group">
-                            <FileUpload 
-                                id="player-photo" 
-                                label="Player Photo (Optional)" 
-                                onChange={setPlayerPhoto} 
-                                accept="image/*" 
-                                preview 
-                                helperText="JPG, PNG up to 5MB" 
-                            />
-                        </div>
-                    </div>
-
-                    {/* SUBMIT BUTTON */}
-                    <button 
-                        type="submit" 
-                        className="btn btn-primary w-full" 
-                        style={{ 
-                            justifyContent: 'center', 
-                            fontSize: '1.1rem',
-                            padding: '16px 32px',
-                            borderRadius: 12
-                        }} 
-                        disabled={loading} 
-                        id="submit-registration"
-                    >
-                        {loading ? 'Submitting...' : '🚀 Submit Registration'}
-                    </button>
-                </form>
-            </div>
+            </section>
         </div>
     );
 };
