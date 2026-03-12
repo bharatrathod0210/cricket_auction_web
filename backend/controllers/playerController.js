@@ -34,7 +34,10 @@ const getPlayer = async (req, res) => {
 // @desc Register player (public)
 const registerPlayer = async (req, res) => {
     try {
-        const { fullName, mobile, role, basePrice } = req.body;
+        console.log('Registration request received:', req.body);
+        console.log('Files:', req.files);
+        
+        const { fullName, mobile, role } = req.body;
         
         // Cloudinary URLs are in file.path
         const playerPhoto = req.files?.playerPhoto ? req.files.playerPhoto[0].path : '';
@@ -44,6 +47,10 @@ const registerPlayer = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Payment screenshot is required' });
         }
 
+        if (!fullName || !mobile || !role) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+
         const regId = generateId();
         const registration = await PlayerRegistration.create({
             _id: regId,
@@ -51,7 +58,7 @@ const registerPlayer = async (req, res) => {
             mobile,
             email: '',
             role,
-            basePrice: Number(basePrice),
+            basePrice: 50000, // Default base price
             playerPhoto,
             paymentScreenshot,
         });
@@ -60,12 +67,13 @@ const registerPlayer = async (req, res) => {
             _id: generateId(),
             registration: regId,
             playerName: fullName,
-            amount: 100,
+            amount: 200,
             screenshot: paymentScreenshot,
         });
 
         res.status(201).json({ success: true, message: 'Registration submitted successfully! Team will review your details.', registration });
     } catch (error) {
+        console.error('Registration error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 };

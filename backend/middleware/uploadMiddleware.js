@@ -10,6 +10,12 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET || 'demo'
 });
 
+console.log('Cloudinary configured:', {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME ? 'Set' : 'Not set',
+    api_key: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not set',
+    api_secret: process.env.CLOUDINARY_API_SECRET ? 'Set' : 'Not set'
+});
+
 // Cloudinary storage for production (Vercel)
 const cloudinaryStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -23,6 +29,8 @@ const cloudinaryStorage = new CloudinaryStorage({
             folder = 'rpl/payments';
         } else if (file.fieldname === 'logo') {
             folder = 'rpl/teams';
+        } else if (file.fieldname === 'image') {
+            folder = 'rpl/players';
         }
         
         return {
