@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { auctionAPI, teamsAPI } from '../services/api';
 import { FiZap, FiClock, FiUsers } from 'react-icons/fi';
 import { GiCricketBat } from 'react-icons/gi';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../utils/imageUrl';
 
 const Auction = () => {
     const [auction, setAuction] = useState(null);
@@ -69,8 +68,8 @@ const Auction = () => {
 
     const isLive = auction?.status === 'live';
     const player = auction?.currentPlayer;
-    const playerImg = player?.image ? `${API_BASE}${player.image}` : null;
-    const bidTeamLogo = auction?.currentBidTeam?.logo ? `${API_BASE}${auction.currentBidTeam.logo}` : null;
+    const playerImg = getImageUrl(player?.image);
+    const bidTeamLogo = getImageUrl(auction?.currentBidTeam?.logo);
 
     return (
         <div style={{ paddingTop: 'var(--nav-height)' }}>
@@ -467,7 +466,7 @@ const Auction = () => {
                                     </h3>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                                         {teams.map(t => {
-                                            const logo = t.logo ? `${API_BASE}${t.logo}` : null;
+                                            const logo = getImageUrl(t.logo);
                                             const remaining = t.purse - t.purseSpent;
                                             return (
                                                 <div key={t._id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 8, background: 'var(--bg-glass)' }}>

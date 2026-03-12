@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { playersAPI } from '../../services/api';
 import { FiCheck, FiX, FiTrash2, FiEye, FiPlus, FiStar, FiEdit2, FiRefreshCw } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import { getImageUrl } from '../../utils/imageUrl';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 const roles = ['Batsman', 'Bowler', 'All Rounder', 'Wicketkeeper'];
 const tabs = ['Registrations', 'All Players', 'Add Player'];
 
@@ -186,7 +186,7 @@ const AdminPlayers = () => {
                                                 {r.paymentScreenshot ? (
                                                     <button
                                                         className="btn btn-outline btn-sm"
-                                                        onClick={() => setViewImg(`${API_BASE}${r.paymentScreenshot}`)}
+                                                        onClick={() => setViewImg(getImageUrl(r.paymentScreenshot))}
                                                     >
                                                         <FiEye /> View
                                                     </button>
@@ -227,7 +227,7 @@ const AdminPlayers = () => {
                                     {players.length === 0 ? (
                                         <tr><td colSpan={7} style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>No players yet</td></tr>
                                     ) : players.map(p => {
-                                        const img = p.image ? `${API_BASE}${p.image}` : null;
+                                        const img = getImageUrl(p.image);
                                         return (
                                             <tr key={p._id}>
                                                 <td>

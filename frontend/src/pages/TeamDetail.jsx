@@ -4,8 +4,8 @@ import { teamsAPI } from '../services/api';
 import { FiArrowLeft, FiUsers, FiDollarSign } from 'react-icons/fi';
 import { GiTrophy } from 'react-icons/gi';
 import PlayerCard from '../components/PlayerCard';
+import { getImageUrl } from '../utils/imageUrl';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 const roleColors = { 'Batsman': '#3b82f6', 'Bowler': '#ef4444', 'All Rounder': '#d4af37', 'Wicketkeeper': '#22c55e' };
 
 const TeamDetail = () => {
@@ -20,7 +20,7 @@ const TeamDetail = () => {
     if (loading) return <div className="loading-screen" style={{ paddingTop: 'var(--nav-height)' }}><div className="spinner" /></div>;
     if (!team) return <div className="empty-state" style={{ paddingTop: 'var(--nav-height)' }}><p>Team not found</p></div>;
 
-    const logoSrc = team.logo ? `${API_BASE}${team.logo}` : null;
+    const logoSrc = getImageUrl(team.logo);
     const purseRemaining = team.purse - team.purseSpent;
 
     const roleCounts = (team.players || []).reduce((acc, p) => {

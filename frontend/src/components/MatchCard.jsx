@@ -1,12 +1,11 @@
 import { FiCalendar, FiMapPin, FiClock } from 'react-icons/fi';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../utils/imageUrl';
 
 const statusColors = { live: '#ef4444', upcoming: 'var(--text-muted)', completed: '#22c55e', cancelled: '#666' };
 
 const MatchCard = ({ match }) => {
-    const t1Logo = match.team1?.logo ? `${API_BASE}${match.team1.logo}` : null;
-    const t2Logo = match.team2?.logo ? `${API_BASE}${match.team2.logo}` : null;
+    const t1Logo = getImageUrl(match.team1?.logo);
+    const t2Logo = getImageUrl(match.team2?.logo);
     const matchDate = match.date ? new Date(match.date) : null;
 
     return (

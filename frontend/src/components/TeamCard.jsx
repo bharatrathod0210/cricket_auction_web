@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
 import { FiUsers } from 'react-icons/fi';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../utils/imageUrl';
 
 const TeamCard = ({ team }) => {
-    const logoSrc = team.logo
-        ? (team.logo.startsWith('http') ? team.logo : `${API_BASE}${team.logo}`)
-        : null;
+    const logoSrc = getImageUrl(team.logo);
 
     return (
         <Link to={`/teams/${team._id}`} className="team-card" style={{ display: 'block' }}>

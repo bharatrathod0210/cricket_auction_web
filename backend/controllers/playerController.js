@@ -34,24 +34,52 @@ const getPlayer = async (req, res) => {
 // @desc Register player (public)
 const registerPlayer = async (req, res) => {
     try {
-        console.log('Registration request received:', req.body);
-        console.log('Files:', req.files);
+        console.log('=== Registration Request ===');
+        console.log('Body:', req.body);
+        console.log('Files received:', req.files ? Object.keys(req.files) : 'none');
         
         const { fullName, mobile, role } = req.body;
         
-        // Cloudinary URLs are in file.path
-        const playerPhoto = req.files?.playerPhoto ? req.files.playerPhoto[0].path : '';
-        const paymentScreenshot = req.files?.paymentScreenshot ? req.files.paymentScreenshot[0].path : '';
-
-        if (!paymentScreenshot) {
-            return res.status(400).json({ success: false, message: 'Payment screenshot is required' });
-        }
-
+        // Validate required fields
         if (!fullName || !mobile || !role) {
-            return res.status(400).json({ success: false, message: 'All fields are required' });
+            return res.status(400).json({ 
+                success: false, 
+                message: 'All fields are required (fullName, mobile, role)' 
+            });
         }
 
+        // Check if files were uploaded
+        if (!req.files || !req.files.paymentScreenshot || req.files.paymentScreenshot.length === 0) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Payment screenshot is required' 
+            });
+        }
+
+        // Get file paths (Cloudinary URLs or memory buffer)
+        const playerPhoto = req.files?.playerPhoto && req.files.playerPhoto[0] 
+            ? (req.files.playerPhoto[0].path || req.files.playerPhoto[0].filename || '') 
+            : '';
+        const paymentScreenshot = req.files?.paymentScreenshot && req.files.paymentScreenshot[0]
+            ? (req.files.paymentScreenshot[0].path || req.files.paymentScreenshot[0].filename || '')
+            : '';
+
+        // Verify payment screenshot was processed
+        if (!paymentScreenshot) {
+            console.error('Payment screenshot upload failed - no path or filename');
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Payment screenshot upload failed. Please check Cloudinary configuration or try a different image format.' 
+            });
+        }
+
+        console.log('Player Photo URL:', playerPhoto);
+        console.log('Payment Screenshot URL:', paymentScreenshot);
+
+        // Generate registration ID
         const regId = generateId();
+        
+        // Create registration
         const registration = await PlayerRegistration.create({
             _id: regId,
             fullName,
@@ -63,6 +91,9 @@ const registerPlayer = async (req, res) => {
             paymentScreenshot,
         });
 
+        console.log('✅ Registration created:', registration._id);
+
+        // Create payment record
         await Payment.create({
             _id: generateId(),
             registration: regId,
@@ -71,10 +102,47 @@ const registerPlayer = async (req, res) => {
             screenshot: paymentScreenshot,
         });
 
-        res.status(201).json({ success: true, message: 'Registration submitted successfully! Team will review your details.', registration });
+        console.log('✅ Payment record created');
+
+        res.status(201).json({ 
+            success: true, 
+            message: 'Registration submitted successfully! Our team will review your details.', 
+            registration: {
+                id: registration._id,
+                fullName: registration.fullName,
+                mobile: registration.mobile,
+                role: registration.role
+            }
+        });
     } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ success: false, message: error.message });
+        console.error('=== Registration Error ===');
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        
+        // Provide specific error messages
+        let errorMessage = 'Registration failed. Please try again.';
+        
+        if (error.name === 'ValidationError') {
+            errorMessage = 'Invalid data provided. Please check all fields.';
+        } else if (error.code === 11000) {
+            errorMessage = 'A registration with this mobile number already exists.';
+        } else if (error.message && error.message.includes('Cloudinary')) {
+            errorMessage = 'File upload failed. Please check your Cloudinary configuration.';
+        } else if (error.message && error.message.includes('signature')) {
+            errorMessage = 'File upload authentication failed. Please verify Cloudinary credentials.';
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
+        res.status(500).json({ 
+            success: false, 
+            message: errorMessage,
+            ...(process.env.NODE_ENV === 'development' && { 
+                error: error.message,
+                errorType: error.name 
+            })
+        });
     }
 };
 

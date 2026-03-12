@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { playersAPI, teamsAPI } from '../services/api';
 import { GiTrophy } from 'react-icons/gi';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../utils/imageUrl';
 
 const Leaderboard = () => {
     const [topScorers, setTopScorers] = useState([]);
@@ -25,8 +24,8 @@ const Leaderboard = () => {
     const teamPoints = [...teams].sort((a, b) => b.points - a.points || b.wins - a.wins);
 
     const RankRow = ({ player, rank, stat, statLabel }) => {
-        const imgSrc = player.image ? `${API_BASE}${player.image}` : null;
-        const teamLogo = player.team?.logo ? `${API_BASE}${player.team.logo}` : null;
+        const imgSrc = getImageUrl(player.image);
+        const teamLogo = getImageUrl(player.team?.logo);
         const isTop3 = rank <= 3;
 
         return (
@@ -157,7 +156,7 @@ const Leaderboard = () => {
                                                 </thead>
                                                 <tbody>
                                                     {teamPoints.map((t, i) => {
-                                                        const logo = t.logo ? `${API_BASE}${t.logo}` : null;
+                                                        const logo = getImageUrl(t.logo);
                                                         return (
                                                             <tr key={t._id}>
                                                                 <td style={{ color: i < 3 ? 'var(--gold)' : 'var(--text-muted)', fontWeight: 700 }}>

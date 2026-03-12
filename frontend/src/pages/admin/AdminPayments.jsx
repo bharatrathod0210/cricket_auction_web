@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { paymentsAPI } from '../../services/api';
 import { FiEye, FiCheck, FiX } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import { getImageUrl } from '../../utils/imageUrl';
 
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
 const statusFilters = ['All', 'pending', 'approved', 'rejected'];
 
 const AdminPayments = () => {
@@ -93,7 +93,7 @@ const AdminPayments = () => {
                                     <td>
                                         <button
                                             className="btn btn-outline btn-sm"
-                                            onClick={() => setViewImg(`${API_BASE}${p.screenshot}`)}
+                                            onClick={() => setViewImg(getImageUrl(p.screenshot))}
                                         >
                                             <FiEye /> View
                                         </button>

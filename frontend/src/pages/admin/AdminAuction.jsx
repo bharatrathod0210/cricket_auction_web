@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { auctionAPI, playersAPI, teamsAPI } from '../../services/api';
 import { FiPlay, FiSkipForward, FiCheck, FiX, FiPlus, FiMinus, FiMove } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../../utils/imageUrl';
 
 const AdminAuction = () => {
     const [auction, setAuction] = useState(null);
@@ -218,7 +217,7 @@ const AdminAuction = () => {
     };
 
     const currentPlayer = auction?.currentPlayer;
-    const playerImg = currentPlayer?.image ? `${API_BASE}${currentPlayer.image}` : null;
+    const playerImg = getImageUrl(currentPlayer?.image);
     const bidTeamObj = teams.find(t => t._id === bidTeam);
 
     if (loading) return <div className="loading-screen"><div className="spinner" /></div>;

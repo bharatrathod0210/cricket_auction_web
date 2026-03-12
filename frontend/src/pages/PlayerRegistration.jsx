@@ -50,7 +50,7 @@ const PlayerRegistration = () => {
     const [success, setSuccess] = useState(false);
 
     // UPI Payment Configuration
-    const REGISTRATION_FEE = 100;
+    const REGISTRATION_FEE = 200;
 
     const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -184,7 +184,7 @@ const PlayerRegistration = () => {
                                 <ul style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: 10 }}>
                                     {[
                                         '1. Scan the QR code with any UPI app',
-                                        '2. Pay ₹100 registration fee',
+                                        '2. Pay ₹200 registration fee',
                                         '3. Complete the payment',
                                         '4. Take screenshot of payment confirmation',
                                         '5. Upload screenshot in the form and submit',

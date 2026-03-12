@@ -1,7 +1,6 @@
 import { FiUser, FiX } from 'react-icons/fi';
 import { useState } from 'react';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../utils/imageUrl';
 
 const roleColors = {
     'Batsman': '#3b82f6',
@@ -13,13 +12,8 @@ const roleColors = {
 const PlayerCard = ({ player }) => {
     const [showImageModal, setShowImageModal] = useState(false);
     
-    const imgSrc = player.image
-        ? (player.image.startsWith('http') ? player.image : `${API_BASE}${player.image}`)
-        : null;
-
-    const teamLogoSrc = player.team?.logo
-        ? (player.team.logo.startsWith('http') ? player.team.logo : `${API_BASE}${player.team.logo}`)
-        : null;
+    const imgSrc = getImageUrl(player.image);
+    const teamLogoSrc = getImageUrl(player.team?.logo);
 
     return (
         <>

@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { teamsAPI } from '../../services/api';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-
-const API_BASE = import.meta.env.PROD ? 'https://rpl-sihor-backend.vercel.app' : 'http://localhost:5000';
+import { getImageUrl } from '../../utils/imageUrl';
 
 const emptyForm = { name: '', captainName: '', purse: 10000000, color: '#ffffff', description: '' };
 
@@ -76,7 +75,7 @@ const AdminTeams = () => {
             {loading ? <div className="loading-screen"><div className="spinner" /></div> : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
                     {teams.map(team => {
-                        const logo = team.logo ? `${API_BASE}${team.logo}` : null;
+                        const logo = getImageUrl(team.logo);
                         return (
                             <div key={team._id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
                                 <div style={{ height: 8, background: team.color || '#fff' }} />
