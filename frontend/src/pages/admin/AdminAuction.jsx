@@ -353,7 +353,7 @@ const AdminAuction = () => {
                                             +1L
                                         </button>
                                         <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 500000))} style={{ whiteSpace: 'nowrap' }}>
-                                            +yL
+                                            +5L
                                         </button>
                                         <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 1000000))} style={{ whiteSpace: 'nowrap' }}>
                                             +10L
