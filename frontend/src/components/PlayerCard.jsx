@@ -26,32 +26,65 @@ const PlayerCard = ({ player }) => {
             </div>
 
             {/* Image */}
-            <div style={{ height: 200, overflow: 'hidden', background: 'var(--bg-elevated)', position: 'relative' }}>
+            <div style={{ 
+                height: 240, 
+                overflow: 'hidden', 
+                background: 'var(--bg-elevated)', 
+                position: 'relative',
+                borderRadius: '12px 12px 0 0'
+            }}>
                 {imgSrc ? (
                     <img 
                         src={imgSrc} 
                         alt={player.name} 
                         className="card-image" 
-                        style={{ width: '100%', height: '300px', objectFit: 'cover', cursor: 'pointer' }}
+                        style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'cover',
+                            objectPosition: 'center top',
+                            cursor: 'pointer',
+                            transition: 'transform 0.3s ease'
+                        }}
                         onClick={(e) => {
                             e.stopPropagation();
                             setShowImageModal(true);
                         }}
+                        onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.05)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                        }}
                     />
                 ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%)'
+                    }}>
                         <FiUser size={48} color="var(--text-muted)" />
                     </div>
                 )}
-                {/* Role overlay */}
+                {/* Role overlay with better gradient */}
                 <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0,
-                    background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-                    padding: '20px 12px 8px',
+                    position: 'absolute', 
+                    bottom: 0, 
+                    left: 0, 
+                    right: 0,
+                    background: 'linear-gradient(transparent, rgba(0,0,0,0.9))',
+                    padding: '24px 12px 10px',
                 }}>
                     <span style={{
-                        fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1,
+                        fontSize: '0.7rem', 
+                        fontWeight: 700, 
+                        textTransform: 'uppercase', 
+                        letterSpacing: 1.5,
                         color: roleColors[player.role] || '#fff',
+                        textShadow: '0 2px 4px rgba(0,0,0,0.8)'
                     }}>
                         {player.role}
                     </span>
