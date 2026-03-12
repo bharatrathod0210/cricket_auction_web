@@ -108,27 +108,6 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-
-                {/* Bottom Bar */}
-                <div style={{
-                    borderTop: '1px solid var(--border)',
-                    paddingTop: 24,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: 12,
-                }}>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                        © {currentYear} RPL – Rajivnagar Premier League. All rights reserved.
-                    </p>
-                    <Link to="/admin/login" style={{ color: 'var(--text-muted)', fontSize: '0.8rem', transition: 'color 0.2s' }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
-                    >
-                        Admin Panel
-                    </Link>
-                </div>
             </div>
         </footer>
     );
