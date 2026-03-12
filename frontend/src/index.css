@@ -1067,8 +1067,127 @@ select.form-control option {
 /* ============================================
    RESPONSIVE HELPERS
 ============================================ */
-.hide-mobile { @media (max-width: 640px) { display: none !important; } }
-.hide-tablet { @media (max-width: 1024px) { display: none !important; } }
+@media (max-width: 640px) {
+  .hide-mobile { display: none !important; }
+}
+
+@media (max-width: 1024px) {
+  .hide-tablet { display: none !important; }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE FIXES
+============================================ */
+@media (max-width: 768px) {
+  /* Navbar Logo Responsive */
+  nav img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  nav > div > a > div > div:first-child {
+    font-size: 1.2rem !important;
+  }
+  
+  nav > div > a > div > div:last-child {
+    font-size: 0.5rem !important;
+  }
+  
+  /* Hero Section Mobile */
+  .hero {
+    min-height: auto !important;
+    padding: 60px 0 40px !important;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem !important;
+    letter-spacing: 4px !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .hero p {
+    font-size: 0.95rem !important;
+    margin-bottom: 24px !important;
+  }
+  
+  /* Buttons Mobile */
+  .hero .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .hero-content > div {
+    gap: 32px !important;
+  }
+  
+  .hero-content > div > div:first-child {
+    max-width: 100% !important;
+  }
+  
+  .hero-content > div > div:first-child > div:nth-child(3) {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px !important;
+  }
+  
+  /* Stats Mobile */
+  .hero-content > div > div:first-child > div:last-child {
+    gap: 24px !important;
+    margin-top: 40px !important;
+  }
+  
+  .hero-content > div > div:first-child > div:last-child > div {
+    min-width: 70px;
+  }
+  
+  .hero-content > div > div:first-child > div:last-child > div > div:first-child {
+    font-size: 2rem !important;
+  }
+  
+  /* Section Padding */
+  .section {
+    padding: 48px 0 !important;
+  }
+  
+  .section-header {
+    margin-bottom: 32px !important;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem !important;
+  }
+  
+  /* Container Padding */
+  .container {
+    padding: 0 16px !important;
+  }
+  
+  /* Page Hero */
+  .page-hero {
+    padding: 0 0 40px !important;
+  }
+  
+  .page-hero h1 {
+    font-size: 2rem !important;
+    letter-spacing: 2px !important;
+  }
+  
+  /* Countdown */
+  .countdown {
+    gap: 10px !important;
+  }
+  
+  .countdown-unit {
+    min-width: 70px !important;
+    padding: 12px 16px !important;
+  }
+  
+  .countdown-unit .value {
+    font-size: 1.5rem !important;
+  }
+}
 
 .flex { display: flex; }
 .flex-col { flex-direction: column; }

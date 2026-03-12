@@ -470,9 +470,202 @@ const Home = () => {
                             grid-template-columns: 1fr !important;
                             text-align: center;
                         }
+                        .hero-content > div > div:first-child {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                        }
+                        .hero-content > div > div:first-child > div:last-child {
+                            justify-content: center;
+                        }
                         .hero-content > div > div:last-child {
                             display: none;
                         }
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .hero h1 {
+                            font-size: 2.5rem !important;
+                            letter-spacing: 4px !important;
+                        }
+                        .hero .btn {
+                            width: 100%;
+                            justify-content: center;
+                        }
+                        .hero-content > div > div:first-child > div:nth-child(3) {
+                            width: 100%;
+                        }
+                    }
+
+                    /* --- NEW ATTRCTIVE STYLES --- */
+                    .format-card {
+                        background: var(--bg-glass);
+                        border: 1px solid var(--border);
+                        border-radius: var(--radius-lg);
+                        padding: 40px 30px;
+                        position: relative;
+                        overflow: hidden;
+                        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                        z-index: 1;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        text-align: center;
+                    }
+                    .format-card::before {
+                        content: '';
+                        position: absolute;
+                        inset: -2px;
+                        background: linear-gradient(135deg, rgba(212,175,55,0.4), transparent, rgba(212,175,55,0.1));
+                        z-index: -1;
+                        border-radius: inherit;
+                        opacity: 0;
+                        transition: opacity 0.5s ease;
+                    }
+                    .format-card:hover {
+                        transform: translateY(-12px) scale(1.02);
+                        border-color: transparent;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px rgba(212,175,55,0.15);
+                    }
+                    .format-card:hover::before {
+                        opacity: 1;
+                    }
+                    .format-icon-wrapper {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(255,215,0,0.05) 100%);
+                        border: 1px solid rgba(212,175,55,0.3);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2.2rem;
+                        color: var(--gold);
+                        margin-bottom: 24px;
+                        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                        box-shadow: inset 0 0 20px rgba(212,175,55,0.1);
+                    }
+                    .format-card:hover .format-icon-wrapper {
+                        transform: rotateY(360deg) scale(1.1);
+                        background: linear-gradient(135deg, var(--gold) 0%, #FFA500 100%);
+                        color: #000;
+                        box-shadow: 0 10px 20px rgba(212,175,55,0.4);
+                        border-color: transparent;
+                    }
+                    .attractive-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                        gap: 30px;
+                        position: relative;
+                        z-index: 2;
+                    }
+                    .floating-element {
+                        animation: floatElem 6s ease-in-out infinite;
+                    }
+                    .floating-element-delayed {
+                        animation: floatElem 7s ease-in-out infinite 2s;
+                    }
+                    @keyframes floatElem {
+                        0% { transform: translateY(0px) rotate(0deg); }
+                        50% { transform: translateY(-20px) rotate(3deg); }
+                        100% { transform: translateY(0px) rotate(0deg); }
+                    }
+                    
+                    /* AI Driven Dynamic Glass Panel */
+                    .ai-glass-panel {
+                        background: rgba(20, 20, 20, 0.6);
+                        backdrop-filter: blur(24px);
+                        -webkit-backdrop-filter: blur(24px);
+                        border: 1px solid rgba(255,255,255,0.05);
+                        border-top: 1px solid rgba(255,255,255,0.1);
+                        border-left: 1px solid rgba(255,255,255,0.1);
+                        border-radius: var(--radius-xl);
+                        padding: 60px 40px;
+                        position: relative;
+                        overflow: hidden;
+                        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+                    }
+                    .ai-glass-panel::after {
+                        content: '';
+                        position: absolute;
+                        top: -50%;
+                        left: -50%;
+                        width: 200%;
+                        height: 200%;
+                        background: radial-gradient(circle at 50% 50%, rgba(212,175,55,0.08) 0%, transparent 60%);
+                        animation: rotate 20s linear infinite;
+                        pointer-events: none;
+                    }
+                    
+                    /* CSS 3D Pitch */
+                    .cricket-scene-container {
+                        perspective: 1000px;
+                        width: 100%;
+                        height: 350px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+                        margin-top: 20px;
+                    }
+                    .css-pitch {
+                        width: 140px;
+                        height: 300px;
+                        background: linear-gradient(to bottom, rgba(212,175,55,0.1) 0%, rgba(139,115,36,0.3) 100%);
+                        border: 2px solid rgba(212,175,55,0.3);
+                        transform: rotateX(60deg) rotateZ(-15deg);
+                        transform-style: preserve-3d;
+                        position: relative;
+                        box-shadow: 0 30px 40px rgba(0,0,0,0.6), inset 0 0 50px rgba(0,0,0,0.5);
+                        transition: transform 0.5s ease;
+                    }
+                    .cricket-scene-container:hover .css-pitch {
+                        transform: rotateX(50deg) rotateZ(0deg) scale(1.05);
+                    }
+                    .css-pitch-line {
+                        position: absolute;
+                        background: rgba(255,255,255,0.5);
+                    }
+                    .css-pitch-crease-top { top: 10%; left: 10%; width: 80%; height: 2px; }
+                    .css-pitch-crease-bottom { bottom: 10%; left: 10%; width: 80%; height: 2px; }
+                    .css-pitch-wide-left { top: 10%; left: 20%; width: 2px; height: 80%; }
+                    .css-pitch-wide-right { top: 10%; right: 20%; width: 2px; height: 80%; }
+                    
+                    .css-stump-group {
+                        position: absolute;
+                        width: 20px;
+                        height: 40px;
+                        left: 50%;
+                        transform: translateX(-50%) rotateX(-90deg);
+                        transform-origin: bottom center;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                    .css-stump-top { top: 10%; }
+                    .css-stump-bottom { bottom: 10%; }
+                    .css-stump {
+                        width: 3px;
+                        height: 100%;
+                        background: linear-gradient(to right, #ddd, #fff, #aaa);
+                        border-radius: 2px;
+                        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+                    }
+                    .css-ball {
+                        position: absolute;
+                        width: 12px;
+                        height: 12px;
+                        background: radial-gradient(circle at 30% 30%, #ff4d4d, #b30000);
+                        border-radius: 50%;
+                        top: 80%;
+                        left: 50%;
+                        transform: translateX(-50%) translateZ(5px);
+                        box-shadow: -5px 10px 10px rgba(0,0,0,0.6);
+                        animation: bowlBall 2s infinite ease-out;
+                    }
+                    @keyframes bowlBall {
+                        0% { top: 80%; left: 55%; transform: translateX(-50%) translateZ(5px); box-shadow: -5px 10px 10px rgba(0,0,0,0.6); }
+                        50% { top: 40%; left: 45%; transform: translateX(-50%) translateZ(20px); box-shadow: -10px 20px 10px rgba(0,0,0,0.4); }
+                        100% { top: 10%; left: 50%; transform: translateX(-50%) translateZ(5px); box-shadow: -2px 5px 5px rgba(0,0,0,0.6); }
                     }
                 `}</style>
             </section>
@@ -510,6 +703,91 @@ const Home = () => {
                     </div>
                 </section>
             )}
+
+            {/* ATTRCTIVE DESIGN: THE RPL FORMAT */}
+            <section className="section" style={{ position: 'relative' }}>
+                <div className="container">
+                    <div className="section-header">
+                        <div className="section-tag">Format</div>
+                        <h2>The <span className="text-gradient">Battleground</span></h2>
+                        <p>Experience cricket like never before. Designed for power, strategy, and pure entertainment.</p>
+                    </div>
+
+                    <div className="attractive-grid">
+                        {/* Card 1 */}
+                        <div className="format-card floating-element">
+                            <div className="format-icon-wrapper">
+                                <GiCricketBat />
+                            </div>
+                            <h3 style={{ fontSize: '1.5rem', marginBottom: 12, fontFamily: 'var(--font-heading)' }}>T20 Format</h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                High-octane action spanning 20 overs of pure power hitting, strategic fielding, and clinical bowling under the floodlights.
+                            </p>
+                        </div>
+                        {/* Card 2 */}
+                        <div className="format-card floating-element-delayed">
+                            <div className="format-icon-wrapper">
+                                <GiTrophy />
+                            </div>
+                            <h3 style={{ fontSize: '1.5rem', marginBottom: 12, fontFamily: 'var(--font-heading)' }}>Grand Finale</h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                The ultimate showdown where the top two teams lock horns to lift the stunning gold-plated RPL trophy.
+                            </p>
+                        </div>
+                        {/* Card 3 */}
+                        <div className="format-card floating-element">
+                            <div className="format-icon-wrapper">
+                                <FiUsers />
+                            </div>
+                            <h3 style={{ fontSize: '1.5rem', marginBottom: 12, fontFamily: 'var(--font-heading)' }}>Elite Auctions</h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                                AI-driven, highly competitive player auctions where franchise owners battle for the most explosive talents in the game.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* AI DRIVEN STATIC CRICKET SCENE */}
+            <section className="section" style={{ borderTop: '1px solid var(--border)' }}>
+                <div className="container">
+                    <div className="ai-glass-panel">
+                        <div className="section-tag" style={{ border: '1px solid var(--gold)', color: 'var(--gold)' }}>Stadium</div>
+                        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: 2, marginBottom: 20 }}>
+                            IMMERSIVE <span style={{ color: 'var(--gold)' }}>CRICKET</span> STADIUM
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', maxWidth: 600, fontSize: '1.1rem', marginBottom: 40, position: 'relative', zIndex: 2 }}>
+                            Step into the future of sports UI. The stadium is set, the pitch is ready, and the ball is moving. Feel the premium rush of the Rajivnagar Premier League.
+                        </p>
+                        
+                        <div className="cricket-scene-container">
+                            <div className="css-pitch">
+                                <div className="css-pitch-line css-pitch-crease-top"></div>
+                                <div className="css-pitch-line css-pitch-crease-bottom"></div>
+                                <div className="css-pitch-line css-pitch-wide-left"></div>
+                                <div className="css-pitch-line css-pitch-wide-right"></div>
+                                
+                                <div className="css-stump-group css-stump-top">
+                                    <div className="css-stump"></div>
+                                    <div className="css-stump"></div>
+                                    <div className="css-stump"></div>
+                                </div>
+                                
+                                <div className="css-stump-group css-stump-bottom">
+                                    <div className="css-stump"></div>
+                                    <div className="css-stump"></div>
+                                    <div className="css-stump"></div>
+                                </div>
+                                <div className="css-ball"></div>
+                            </div>
+                        </div>
+                        
+                        <div style={{ position: 'absolute', top: -50, right: -50, opacity: 0.1, zIndex: 0, transform: 'rotate(15deg)' }}>
+                            <GiCricketBat style={{ fontSize: '400px' }} />
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* COUNTDOWN */}
             <section className="section" style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
