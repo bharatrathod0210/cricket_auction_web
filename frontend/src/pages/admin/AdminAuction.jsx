@@ -139,12 +139,12 @@ const AdminAuction = () => {
             // Create new auction
             const createRes = await auctionAPI.create({ name: 'RPL Auction 2026', timerDuration: 30 });
             toast.success('New auction created!');
-            
+
             // Start the auction immediately
             const newAuctionId = createRes.data.auction._id;
             await auctionAPI.start(newAuctionId);
-            toast.success('Auction started with unsold players!');
-            
+            toast.success('Auction started with unsold players!');g players!');
+
             fetchAll();
         } catch (err) {
             toast.error(err.response?.data?.message || 'Error starting new auction');
@@ -178,7 +178,7 @@ const AdminAuction = () => {
 
     const handleDrop = async (e, dropIndex) => {
         e.preventDefault();
-        
+
         if (draggedIndex === null || draggedIndex === dropIndex) {
             setDraggedIndex(null);
             setDragOverIndex(null);
@@ -349,11 +349,17 @@ const AdminAuction = () => {
                                             onChange={e => setBidAmount(e.target.value)}
                                             id="bid-amount-input"
                                         />
-                                        <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 10000))} style={{ whiteSpace: 'nowrap' }}>
-                                            +10K
+                                        <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 100000))} style={{ whiteSpace: 'nowrap' }}>
+                                            +1L
                                         </button>
-                                        <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 25000))} style={{ whiteSpace: 'nowrap' }}>
-                                            +25K
+                                        <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 500000))} style={{ whiteSpace: 'nowrap' }}>
+                                            +5L
+                                        </button>
+                                        <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 1000000))} style={{ whiteSpace: 'nowrap' }}>
+                                            +10L
+                                        </button>
+                                        <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 1500000))} style={{ whiteSpace: 'nowrap' }}>
+                                            +15L
                                         </button>
                                         <button className="btn btn-primary" onClick={handleBid} id="place-bid-btn">Bid</button>
                                     </div>
@@ -444,7 +450,7 @@ const AdminAuction = () => {
                                 )}
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 280, overflowY: 'auto' }}>
                                     {auction.playerQueue.slice(0, 15).map((p, i) => (
-                                        <div 
+                                        <div
                                             key={p._id || i}
                                             draggable={i > 0 && auction.status === 'live'}
                                             onDragStart={(e) => handleDragStart(e, i)}
@@ -452,14 +458,14 @@ const AdminAuction = () => {
                                             onDragLeave={handleDragLeave}
                                             onDrop={(e) => handleDrop(e, i)}
                                             onDragEnd={handleDragEnd}
-                                            style={{ 
-                                                padding: '8px 12px', 
-                                                borderRadius: 6, 
-                                                background: i === 0 ? 'rgba(212,175,55,0.1)' : dragOverIndex === i ? 'rgba(212,175,55,0.15)' : 'var(--bg-glass)', 
-                                                fontSize: '0.8rem', 
-                                                display: 'flex', 
-                                                justifyContent: 'space-between', 
-                                                alignItems: 'center', 
+                                            style={{
+                                                padding: '8px 12px',
+                                                borderRadius: 6,
+                                                background: i === 0 ? 'rgba(212,175,55,0.1)' : dragOverIndex === i ? 'rgba(212,175,55,0.15)' : 'var(--bg-glass)',
+                                                fontSize: '0.8rem',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
                                                 border: i === 0 ? '2px solid rgba(212,175,55,0.4)' : dragOverIndex === i ? '2px dashed var(--gold)' : '1px solid transparent',
                                                 cursor: i > 0 && auction.status === 'live' ? 'grab' : 'default',
                                                 opacity: draggedIndex === i ? 0.5 : 1,
@@ -468,14 +474,14 @@ const AdminAuction = () => {
                                             }}
                                         >
                                             {i > 0 && auction.status === 'live' && (
-                                                <FiMove style={{ 
-                                                    color: 'var(--text-muted)', 
+                                                <FiMove style={{
+                                                    color: 'var(--text-muted)',
                                                     marginRight: 8,
                                                     fontSize: '0.9rem'
                                                 }} />
                                             )}
-                                            <span style={{ 
-                                                color: i === 0 ? 'var(--gold)' : '#fff', 
+                                            <span style={{
+                                                color: i === 0 ? 'var(--gold)' : '#fff',
                                                 flex: 1,
                                                 fontWeight: i === 0 ? 600 : 400
                                             }}>

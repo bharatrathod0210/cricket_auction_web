@@ -83,7 +83,7 @@ const registerPlayer = async (req, res) => {
                 _id: paymentId,
                 registration: regId,
                 playerName: fullName,
-                amount: 200,
+                amount: 100,
                 screenshot: paymentScreenshot,
             })
         ]);
