@@ -132,7 +132,7 @@ const AdminAuction = () => {
     };
 
     const handleStartNewAuction = async () => {
-        if (!window.confirm('Start a new auction with all unsold players?')) {
+        if (!window.confirm('Start a new auction with all unsold and upcoming players?')) {
             return;
         }
         try {
@@ -143,7 +143,7 @@ const AdminAuction = () => {
             // Start the auction immediately
             const newAuctionId = createRes.data.auction._id;
             await auctionAPI.start(newAuctionId);
-            toast.success('Auction started with unsold players!');g players!');
+            toast.success('Auction started with unsold and upcoming players!');
 
             fetchAll();
         } catch (err) {
@@ -353,7 +353,7 @@ const AdminAuction = () => {
                                             +1L
                                         </button>
                                         <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 500000))} style={{ whiteSpace: 'nowrap' }}>
-                                            +5L
+                                            +yL
                                         </button>
                                         <button className="btn btn-outline" onClick={() => setBidAmount(String((auction.currentBid || currentPlayer.basePrice) + 1000000))} style={{ whiteSpace: 'nowrap' }}>
                                             +10L
