@@ -122,9 +122,6 @@ app.use((err, req, res, next) => {
 // For local development
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-        console.log(`🏏 RPL Server running on http://localhost:${PORT}`);
-    });
 }
 
 // Export for Vercel
