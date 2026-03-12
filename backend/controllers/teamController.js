@@ -27,7 +27,7 @@ const getTeam = async (req, res) => {
 const createTeam = async (req, res) => {
     try {
         const { name, captainName, purse, color, description } = req.body;
-        const logo = req.file ? `/uploads/teams/${req.file.filename}` : '';
+        const logo = req.file ? req.file.path : ''; // Cloudinary URL
         
         // Auto-generate shortName from team name (first letters of each word, max 4 chars)
         const shortName = name.split(' ').map(w => w.charAt(0)).join('').toUpperCase().slice(0, 4);
@@ -58,7 +58,7 @@ const updateTeam = async (req, res) => {
         
         const updateData = { name, captainName, purse, color, description, updatedAt: Date.now() };
         if (shortName) updateData.shortName = shortName;
-        if (req.file) updateData.logo = `/uploads/teams/${req.file.filename}`;
+        if (req.file) updateData.logo = req.file.path; // Cloudinary URL
         
         const team = await Team.findByIdAndUpdate(req.params.id, updateData, { new: true });
         if (!team) return res.status(404).json({ success: false, message: 'Team not found' });

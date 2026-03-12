@@ -1,25 +1,35 @@
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        let folder = req.uploadFolder || 'general';
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'demo',
+    api_key: process.env.CLOUDINARY_API_KEY || 'demo',
+    api_secret: process.env.CLOUDINARY_API_SECRET || 'demo'
+});
+
+// Cloudinary storage for production (Vercel)
+const cloudinaryStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: async (req, file) => {
+        let folder = 'rpl/general';
         
         // Use different folders based on field name
         if (file.fieldname === 'playerPhoto') {
-            folder = 'players';
+            folder = 'rpl/players';
         } else if (file.fieldname === 'paymentScreenshot') {
-            folder = 'payments';
+            folder = 'rpl/payments';
+        } else if (file.fieldname === 'logo') {
+            folder = 'rpl/teams';
         }
         
-        const dir = path.join(__dirname, '../uploads', folder);
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        cb(null, dir);
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
+        return {
+            folder: folder,
+            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+            transformation: [{ width: 1000, height: 1000, crop: 'limit' }]
+        };
     }
 });
 
@@ -35,7 +45,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-    storage,
+    storage: cloudinaryStorage,
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter
 });

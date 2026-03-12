@@ -35,8 +35,10 @@ const getPlayer = async (req, res) => {
 const registerPlayer = async (req, res) => {
     try {
         const { fullName, mobile, role, basePrice } = req.body;
-        const playerPhoto = req.files?.playerPhoto ? `/uploads/players/${req.files.playerPhoto[0].filename}` : '';
-        const paymentScreenshot = req.files?.paymentScreenshot ? `/uploads/payments/${req.files.paymentScreenshot[0].filename}` : '';
+        
+        // Cloudinary URLs are in file.path
+        const playerPhoto = req.files?.playerPhoto ? req.files.playerPhoto[0].path : '';
+        const paymentScreenshot = req.files?.paymentScreenshot ? req.files.paymentScreenshot[0].path : '';
 
         if (!paymentScreenshot) {
             return res.status(400).json({ success: false, message: 'Payment screenshot is required' });
@@ -131,7 +133,7 @@ const rejectRegistration = async (req, res) => {
 const addPlayer = async (req, res) => {
     try {
         const { name, mobile, email, role, basePrice } = req.body;
-        const image = req.file ? `/uploads/players/${req.file.filename}` : '';
+        const image = req.file ? req.file.path : ''; // Cloudinary URL
         const player = await Player.create({
             _id: generateId(),
             name,
@@ -154,7 +156,7 @@ const addPlayer = async (req, res) => {
 const updatePlayer = async (req, res) => {
     try {
         const updateData = { ...req.body, updatedAt: Date.now() };
-        if (req.file) updateData.image = `/uploads/players/${req.file.filename}`;
+        if (req.file) updateData.image = req.file.path; // Cloudinary URL
         const player = await Player.findByIdAndUpdate(req.params.id, updateData, { new: true });
         if (!player) return res.status(404).json({ success: false, message: 'Player not found' });
         res.json({ success: true, player });
