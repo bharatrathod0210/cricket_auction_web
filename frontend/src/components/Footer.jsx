@@ -99,7 +99,7 @@ const Footer = () => {
                             </li>
                             <li style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-muted)', fontSize: '0.875rem' }}>
                                 <FiPhone />
-                                <a href="tel:+919999999999" style={{ color: 'inherit' }}>+91 9016413790</a>
+                                <a href="tel:+919016413790" style={{ color: 'inherit' }}>+91 9016413790</a>
                             </li>
                             <li style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-muted)', fontSize: '0.875rem' }}>
                                 <FiMail />
