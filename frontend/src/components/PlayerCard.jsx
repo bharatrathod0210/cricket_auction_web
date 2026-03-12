@@ -1,6 +1,7 @@
 import { FiUser, FiX } from 'react-icons/fi';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { getImageUrl } from '../utils/imageUrl';
+import { createSmartImageLoader } from '../utils/imageUtils';
 
 const roleColors = {
     'Batsman': '#3b82f6',
@@ -11,9 +12,16 @@ const roleColors = {
 
 const PlayerCard = ({ player }) => {
     const [showImageModal, setShowImageModal] = useState(false);
+    const imgRef = useRef(null);
     
     const imgSrc = getImageUrl(player.image);
     const teamLogoSrc = getImageUrl(player.team?.logo);
+
+    useEffect(() => {
+        if (imgRef.current && imgSrc) {
+            createSmartImageLoader(imgRef.current);
+        }
+    }, [imgSrc]);
 
     return (
         <>
@@ -27,7 +35,7 @@ const PlayerCard = ({ player }) => {
 
             {/* Image */}
             <div style={{ 
-                height: 240, 
+                height: 280, 
                 overflow: 'hidden', 
                 background: 'var(--bg-elevated)', 
                 position: 'relative',
@@ -35,6 +43,7 @@ const PlayerCard = ({ player }) => {
             }}>
                 {imgSrc ? (
                     <img 
+                        ref={imgRef}
                         src={imgSrc} 
                         alt={player.name} 
                         className="card-image" 
@@ -42,19 +51,21 @@ const PlayerCard = ({ player }) => {
                             width: '100%', 
                             height: '100%', 
                             objectFit: 'cover',
-                            objectPosition: 'center top',
+                            objectPosition: 'center 20%', // Default, will be updated by smart loader
                             cursor: 'pointer',
-                            transition: 'transform 0.3s ease'
+                            transition: 'all 0.3s ease'
                         }}
                         onClick={(e) => {
                             e.stopPropagation();
                             setShowImageModal(true);
                         }}
                         onMouseEnter={(e) => {
-                            e.target.style.transform = 'scale(1.05)';
+                            e.target.style.transform = 'scale(1.03)';
+                            e.target.style.filter = 'brightness(1.1) contrast(1.15) saturate(1.1)';
                         }}
                         onMouseLeave={(e) => {
                             e.target.style.transform = 'scale(1)';
+                            e.target.style.filter = 'brightness(1.05) contrast(1.1) saturate(1.05)';
                         }}
                     />
                 ) : (
@@ -62,33 +73,52 @@ const PlayerCard = ({ player }) => {
                         width: '100%', 
                         height: '100%', 
                         display: 'flex', 
+                        flexDirection: 'column',
                         alignItems: 'center', 
                         justifyContent: 'center',
-                        background: 'linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%)'
+                        background: 'linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%)',
+                        gap: 12
                     }}>
-                        <FiUser size={48} color="var(--text-muted)" />
+                        <FiUser size={56} color="var(--text-muted)" />
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>No Photo</span>
                     </div>
                 )}
-                {/* Role overlay with better gradient */}
+                
+                {/* Gradient overlay for better text visibility */}
                 <div style={{
                     position: 'absolute', 
                     bottom: 0, 
                     left: 0, 
                     right: 0,
-                    background: 'linear-gradient(transparent, rgba(0,0,0,0.9))',
-                    padding: '24px 12px 10px',
+                    background: 'linear-gradient(transparent 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.9) 100%)',
+                    padding: '32px 16px 12px',
                 }}>
                     <span style={{
-                        fontSize: '0.7rem', 
+                        fontSize: '0.75rem', 
                         fontWeight: 700, 
                         textTransform: 'uppercase', 
                         letterSpacing: 1.5,
                         color: roleColors[player.role] || '#fff',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.8)'
+                        textShadow: '0 2px 8px rgba(0,0,0,0.9)',
+                        background: `linear-gradient(135deg, ${roleColors[player.role] || '#fff'} 0%, rgba(255,255,255,0.8) 100%)`,
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
                     }}>
                         {player.role}
                     </span>
                 </div>
+                
+                {/* Corner accent */}
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: 40,
+                    height: 40,
+                    background: `linear-gradient(135deg, ${roleColors[player.role] || 'var(--gold)'} 0%, transparent 100%)`,
+                    opacity: 0.3
+                }} />
             </div>
 
             <div className="card-body">
