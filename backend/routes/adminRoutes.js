@@ -4,7 +4,7 @@ const { loginAdmin, createAdmin, getAdminProfile, updateUpiId, getUpiId } = requ
 const { protect } = require('../middleware/authMiddleware');
 
 router.post('/login', loginAdmin);
-router.post('/setup', createAdmin); // one-time setup
+router.post('/register', createAdmin); // one-time setup
 router.get('/profile', protect, getAdminProfile);
 router.put('/upi', protect, updateUpiId);
 router.get('/upi', getUpiId); // public endpoint
