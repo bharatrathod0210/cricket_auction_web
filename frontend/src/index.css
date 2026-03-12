@@ -659,7 +659,7 @@ select.form-control option {
 
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
   gap: 24px;
 }
 
@@ -1078,6 +1078,7 @@ select.form-control option {
   transition: all 0.3s ease;
   position: relative;
   height: fit-content;
+  width: max-content;
 }
 
 .player-card:hover {
@@ -1203,6 +1204,7 @@ select.form-control option {
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
+  width: max-content;
 }
 
 .team-card:hover {
