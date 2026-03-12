@@ -26,12 +26,6 @@ const PlayerCard = ({ player }) => {
     return (
         <>
             <div className="player-card" style={{ display: 'block' }}>
-            {/* Status Badge */}
-            <div className="player-status">
-                <span className={`badge ${player.auctionStatus === 'sold' ? 'badge-green' : player.auctionStatus === 'unsold' ? 'badge-red' : 'badge-muted'}`}>
-                    {player.auctionStatus}
-                </span>
-            </div>
 
             {/* Image */}
             <div style={{ 
@@ -49,7 +43,7 @@ const PlayerCard = ({ player }) => {
                         className="card-image" 
                         style={{ 
                             width: '100%', 
-                            height: '100%', 
+                            height: 'stretch', 
                             objectFit: 'cover',
                             objectPosition: 'center 20%', // Default, will be updated by smart loader
                             cursor: 'pointer',
