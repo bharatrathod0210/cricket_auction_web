@@ -49,7 +49,6 @@ const PlayerRegistration = () => {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    // UPI Payment Configuration
     const REGISTRATION_FEE = 100;
 
     const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
