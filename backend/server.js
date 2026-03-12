@@ -113,13 +113,13 @@ app.get('/api/cloudinary-status', (req, res) => {
 app.get('/api/debug/players', async (req, res) => {
     try {
         const allPlayers = await Player.find().select('name approvalStatus auctionStatus');
-        const approvedUpcoming = await Player.find({ approvalStatus: 'approved', auctionStatus: 'upcoming' }).select('name');
+        const approvedUnsold = await Player.find({ approvalStatus: 'approved', auctionStatus: 'unsold' }).select('name');
         res.json({
             success: true,
             total: allPlayers.length,
             allPlayers,
-            approvedUpcoming: approvedUpcoming.length,
-            approvedUpcomingList: approvedUpcoming
+            approvedUnsold: approvedUnsold.length,
+            approvedUnsoldList: approvedUnsold
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

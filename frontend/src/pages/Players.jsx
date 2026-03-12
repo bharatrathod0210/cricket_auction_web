@@ -4,7 +4,7 @@ import { playersAPI, teamsAPI } from '../services/api';
 import { FiSearch } from 'react-icons/fi';
 
 const roles = ['All', 'Batsman', 'Bowler', 'All Rounder', 'Wicketkeeper'];
-const statuses = ['All', 'upcoming', 'sold', 'unsold'];
+const statuses = ['All', 'sold', 'unsold'];
 
 const Players = () => {
     const [players, setPlayers] = useState([]);

@@ -150,7 +150,7 @@ const approveRegistration = async (req, res) => {
             image: reg.playerPhoto,
             paymentScreenshot: reg.paymentScreenshot,
             approvalStatus: 'approved',
-            auctionStatus: 'upcoming'
+            auctionStatus: 'unsold'
         });
 
         await Payment.findOneAndUpdate({ registration: reg._id }, { status: 'approved' });
@@ -190,7 +190,7 @@ const addPlayer = async (req, res) => {
             basePrice: Number(basePrice),
             image,
             approvalStatus: 'approved',
-            auctionStatus: 'upcoming',
+            auctionStatus: 'unsold',
             isManualEntry: true
         });
         res.status(201).json({ success: true, player });
@@ -257,13 +257,13 @@ const toggleIconPlayer = async (req, res) => {
     }
 };
 
-// @desc Reset all players to upcoming status (admin)
+// @desc Reset all players to unsold status (admin)
 const resetPlayersForAuction = async (req, res) => {
     try {
         const result = await Player.updateMany(
             { approvalStatus: 'approved' },
             { 
-                auctionStatus: 'upcoming',
+                auctionStatus: 'unsold',
                 team: null,
                 soldPrice: 0
             }

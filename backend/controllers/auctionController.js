@@ -37,7 +37,7 @@ const createAuction = async (req, res) => {
         // Get upcoming and unsold players
         const players = await Player.find({ 
             approvalStatus: 'approved', 
-            auctionStatus: { $in: ['upcoming', 'unsold'] }
+            auctionStatus: 'unsold'
         }).select('_id name');
         
         console.log(`Creating auction with ${players.length} players:`, players.map(p => p.name));
@@ -65,7 +65,7 @@ const startAuction = async (req, res) => {
         // Refresh player queue with all approved upcoming and unsold players
         const players = await Player.find({ 
             approvalStatus: 'approved', 
-            auctionStatus: { $in: ['upcoming', 'unsold'] }
+            auctionStatus: 'unsold'
         }).select('_id name role basePrice');
         
         console.log(`Found ${players.length} players for auction:`, players.map(p => p.name));
@@ -306,7 +306,7 @@ const resetAuction = async (req, res) => {
         // Get all approved upcoming and unsold players
         const players = await Player.find({ 
             approvalStatus: 'approved', 
-            auctionStatus: { $in: ['upcoming', 'unsold'] }
+            auctionStatus: 'unsold'
         }).select('_id');
         
         console.log(`Resetting auction with ${players.length} players`);

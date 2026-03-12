@@ -22,7 +22,7 @@ const playerSchema = new mongoose.Schema({
     },
     auctionStatus: {
         type: String,
-        enum: ['unsold', 'sold', 'upcoming'],
+        enum: ['unsold', 'sold'],
         default: 'unsold'
     },
     stats: {

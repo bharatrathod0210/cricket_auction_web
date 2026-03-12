@@ -24,7 +24,7 @@ const Home = () => {
             try {
                 const [t, p, m, a] = await Promise.allSettled([
                     teamsAPI.getAll(),
-                    playersAPI.getAll({ auctionStatus: 'upcoming' }),
+                    playersAPI.getAll({ approvalStatus: 'approved' }),
                     matchesAPI.getAll(),
                     announcementsAPI.getAll(),
                 ]);

@@ -42,7 +42,7 @@ const TeamDetail = () => {
                     </Link>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
                         {logoSrc ? (
-                            <img src={logoSrc} alt={team.name} style={{ width: 120, height: 120, objectFit: 'contain', borderRadius: 20, background: 'var(--bg-card)', padding: 12, border: '1px solid var(--border)' }} />
+                            <img src={logoSrc} alt={team.name} style={{ width: 210, height: 125, objectFit: 'contain', borderRadius: 8, background: 'var(--bg-card)', padding: 12, border: '1px solid var(--border)' }} />
                         ) : (
                             <div style={{
                                 width: 120, height: 120, background: 'var(--bg-card)',

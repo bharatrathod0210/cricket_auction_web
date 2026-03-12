@@ -1078,7 +1078,7 @@ select.form-control option {
   transition: all 0.3s ease;
   position: relative;
   height: fit-content;
-  width: max-content;
+  width: 280px;
 }
 
 .player-card:hover {

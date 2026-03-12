@@ -19,7 +19,7 @@ const AdminAuction = () => {
         try {
             const [a, p, t] = await Promise.all([
                 auctionAPI.get(),
-                playersAPI.getAll({ auctionStatus: 'upcoming' }),
+                playersAPI.getAll({ approvalStatus: 'approved' }),
                 teamsAPI.getAll(),
             ]);
             setAuction(a.data.auction);
@@ -106,7 +106,7 @@ const AdminAuction = () => {
     };
 
     const handleResetPlayers = async () => {
-        if (!window.confirm('Reset all players to upcoming status? This will clear teams and sold prices.')) {
+        if (!window.confirm('Reset all players to unsold status? This will clear teams and sold prices.')) {
             return;
         }
         try {
@@ -132,7 +132,7 @@ const AdminAuction = () => {
     };
 
     const handleStartNewAuction = async () => {
-        if (!window.confirm('Start a new auction with all unsold and upcoming players?')) {
+        if (!window.confirm('Start a new auction with all unsold players?')) {
             return;
         }
         try {
@@ -143,7 +143,7 @@ const AdminAuction = () => {
             // Start the auction immediately
             const newAuctionId = createRes.data.auction._id;
             await auctionAPI.start(newAuctionId);
-            toast.success('Auction started with unsold and upcoming players!');
+            toast.success('Auction started with unsold players!');
             
             fetchAll();
         } catch (err) {
