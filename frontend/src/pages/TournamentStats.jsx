@@ -222,7 +222,6 @@ const OverviewTab = ({ tournament }) => (
     </div>
 );
 
-// Batting Tab Component
 const BattingTab = ({ playerStats, tournament }) => {
     const battingStats = playerStats
         .filter(p => p.detailedStats.runs > 0)
