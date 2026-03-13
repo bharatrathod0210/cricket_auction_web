@@ -14,6 +14,8 @@ import PlayerRegistration from './pages/PlayerRegistration';
 import Auction from './pages/Auction';
 import Matches from './pages/Matches';
 import Leaderboard from './pages/Leaderboard';
+import LiveScoring from './pages/LiveScoring';
+import TournamentStats from './pages/TournamentStats';
 
 // Admin
 import AdminLogin from './pages/admin/AdminLogin';
@@ -26,6 +28,7 @@ import AdminAuction from './pages/admin/AdminAuction';
 import AdminPayments from './pages/admin/AdminPayments';
 import AdminMatches from './pages/admin/AdminMatches';
 import AdminAnnouncements from './pages/admin/AdminAnnouncements';
+import AdminLiveScoring from './pages/admin/AdminLiveScoring';
 
 // Public layout wrapper
 const PublicLayout = ({ children }) => (
@@ -71,7 +74,9 @@ function App() {
         <Route path="/register" element={<PublicLayout><PlayerRegistration /></PublicLayout>} />
         <Route path="/auction" element={<PublicLayout><Auction /></PublicLayout>} />
         <Route path="/matches" element={<PublicLayout><Matches /></PublicLayout>} />
+        <Route path="/matches/:matchId/live" element={<PublicLayout><LiveScoring /></PublicLayout>} />
         <Route path="/leaderboard" element={<PublicLayout><Leaderboard /></PublicLayout>} />
+        <Route path="/tournament-stats" element={<PublicLayout><TournamentStats /></PublicLayout>} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -83,6 +88,7 @@ function App() {
         <Route path="/admin/auction" element={<ProtectedAdmin><AdminAuction /></ProtectedAdmin>} />
         <Route path="/admin/payments" element={<ProtectedAdmin><AdminPayments /></ProtectedAdmin>} />
         <Route path="/admin/matches" element={<ProtectedAdmin><AdminMatches /></ProtectedAdmin>} />
+        <Route path="/admin/matches/:matchId/live-scoring" element={<ProtectedAdmin><AdminLiveScoring /></ProtectedAdmin>} />
         <Route path="/admin/announcements" element={<ProtectedAdmin><AdminAnnouncements /></ProtectedAdmin>} />
 
         {/* Catch all */}

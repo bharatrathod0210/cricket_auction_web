@@ -83,6 +83,8 @@ app.use('/api/auction', require('./routes/auctionRoutes'));
 app.use('/api/matches', require('./routes/matchRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes'));
 app.use('/api/announcements', require('./routes/announcementRoutes'));
+app.use('/api/live-scoring', require('./routes/liveScoringRoutes'));
+app.use('/api/tournament', require('./routes/tournamentRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ success: true, message: 'RPL API is running 🏏' }));

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { matchesAPI, teamsAPI } from '../../services/api';
-import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck, FiPlay } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const statuses = ['upcoming', 'live', 'completed', 'cancelled'];
@@ -115,6 +116,13 @@ const AdminMatches = () => {
                                     </td>
                                     <td>
                                         <div style={{ display: 'flex', gap: 6 }}>
+                                            <Link 
+                                                to={`/admin/matches/${m._id}/live-scoring`}
+                                                className="btn btn-success btn-sm"
+                                                style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                                            >
+                                                <FiPlay size={12} />
+                                            </Link>
                                             <button className="btn btn-outline btn-sm" onClick={() => openModal(m)}><FiEdit2 /></button>
                                             <button className="btn btn-danger btn-sm" onClick={() => handleDelete(m._id)}><FiTrash2 /></button>
                                         </div>

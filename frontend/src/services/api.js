@@ -105,4 +105,19 @@ export const adminAPI = {
     getUpiId: () => api.get('/admin/upi')
 };
 
+// Live Scoring
+export const liveScoringAPI = {
+    getLiveScoring: (matchId) => api.get(`/live-scoring/${matchId}`),
+    startLiveScoring: (matchId, data) => api.post(`/live-scoring/${matchId}/start`, data),
+    addBall: (matchId, data) => api.post(`/live-scoring/${matchId}/ball`, data),
+    updateBatsmen: (matchId, data) => api.put(`/live-scoring/${matchId}/batsmen`, data),
+    updateBowler: (matchId, data) => api.put(`/live-scoring/${matchId}/bowler`, data)
+};
+
+// Tournament
+export const tournamentAPI = {
+    getStats: () => api.get('/tournament/stats'),
+    getPlayerStats: () => api.get('/tournament/players')
+};
+
 export default api;

@@ -1,4 +1,5 @@
-import { FiCalendar, FiMapPin, FiClock } from 'react-icons/fi';
+import { FiCalendar, FiMapPin, FiClock, FiPlay } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { getImageUrl } from '../utils/imageUrl';
 
 const statusColors = { live: '#ef4444', upcoming: 'var(--text-muted)', completed: '#22c55e', cancelled: '#666' };
@@ -63,24 +64,49 @@ const MatchCard = ({ match }) => {
             )}
 
             {/* Footer */}
-            <div style={{ display: 'flex', gap: 16, marginTop: 14, color: 'var(--text-muted)', fontSize: '0.75rem', flexWrap: 'wrap' }}>
-                {matchDate && (
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <FiCalendar size={12} />
-                        {matchDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </span>
-                )}
-                {match.time && (
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <FiClock size={12} />
-                        {match.time}
-                    </span>
-                )}
-                {match.venue && (
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <FiMapPin size={12} />
-                        {match.venue}
-                    </span>
+            <div style={{ display: 'flex', gap: 16, marginTop: 14, color: 'var(--text-muted)', fontSize: '0.75rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                    {matchDate && (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <FiCalendar size={12} />
+                            {matchDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </span>
+                    )}
+                    {match.time && (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <FiClock size={12} />
+                            {match.time}
+                        </span>
+                    )}
+                    {match.venue && (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <FiMapPin size={12} />
+                            {match.venue}
+                        </span>
+                    )}
+                </div>
+                
+                {/* Live Scoring Link */}
+                {(match.status === 'live' || match.status === 'completed') && (
+                    <Link 
+                        to={`/matches/${match._id}/live`}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            padding: '4px 8px',
+                            background: match.status === 'live' ? 'var(--red)' : 'var(--green)',
+                            color: '#fff',
+                            borderRadius: 4,
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            textDecoration: 'none',
+                            transition: 'all 0.2s'
+                        }}
+                    >
+                        <FiPlay size={10} />
+                        {match.status === 'live' ? 'LIVE' : 'SCORECARD'}
+                    </Link>
                 )}
             </div>
         </div>
