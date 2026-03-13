@@ -6,7 +6,7 @@ const TeamCard = ({ team }) => {
     const logoSrc = getImageUrl(team.logo);
 
     return (
-        <Link to={`/teams/${team._id}`} className="team-card" style={{ display: 'block', width: 'auto' }}>
+        <Link to={`/teams/${team._id}`} className="team-card" style={{ display: 'block', width: 250 }}>
             <div className="team-banner" style={{ background: `linear-gradient(135deg, ${team.color}22, ${team.color}44)`, padding: '70px 0' }}>
                 {logoSrc ? (
                     <img src={logoSrc} alt={team.name} className="team-logo" style={{ width: 260, height: 140, objectFit: 'contain' }} />
