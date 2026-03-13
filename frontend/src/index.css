@@ -1336,8 +1336,8 @@ select.form-control option {
 }
 
 .auction-player-img {
-  width: 160px;
-  height: 160px;
+  /* width: 160px;
+  height: 160px; */
   object-fit: cover;
   border-radius: var(--radius-lg);
   border: 3px solid var(--border);
@@ -1616,29 +1616,21 @@ select.form-control option {
 ============================================ */
 
 .auction-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
-  gap: 24px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
+/* Remove old sidebar styles since we're using vertical layout */
 @media (max-width: 1024px) {
   .auction-layout {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .auction-sidebar {
-    order: -1 !important;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px !important;
+    gap: 24px;
   }
 }
 
 @media (max-width: 768px) {
-  .auction-sidebar {
-    grid-template-columns: 1fr !important;
+  .auction-layout {
+    gap: 20px;
   }
   
   .auction-screen {
@@ -1657,9 +1649,23 @@ select.form-control option {
   .current-bid {
     font-size: 2.5rem !important;
   }
+  
+  /* Teams grid responsive */
+  div[style*="repeat(auto-fit, minmax(250px, 1fr))"] {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  }
+  
+  /* Upcoming players grid responsive */
+  div[style*="repeat(auto-fit, minmax(200px, 1fr))"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
 }
 
 @media (max-width: 480px) {
+  .auction-layout {
+    gap: 16px;
+  }
+  
   .auction-screen {
     padding: 16px !important;
   }
@@ -1684,6 +1690,16 @@ select.form-control option {
   .page-hero p {
     font-size: 0.9rem !important;
   }
+  
+  /* Teams grid single column on mobile */
+  div[style*="repeat(auto-fit, minmax(250px, 1fr))"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Upcoming players single column on mobile */
+  div[style*="repeat(auto-fit, minmax(200px, 1fr))"] {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 /* Auction specific components */
@@ -1705,8 +1721,8 @@ select.form-control option {
 }
 
 .auction-player-img {
-  width: 160px;
-  height: 160px;
+  /* width: 160px;
+  height: 160px; */
   border-radius: var(--radius-lg);
   object-fit: cover;
   border: 3px solid var(--border);

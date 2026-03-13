@@ -20,7 +20,7 @@ const Auction = () => {
                 const [a, t] = await Promise.all([auctionAPI.get(), teamsAPI.getAll()]);
                 const newAuction = a.data.auction;
                 
-                // Check if bid changed
+                // Check if bid changed - Reset timer when new bid is placed
                 if (auction && newAuction && auction.currentBid !== newAuction.currentBid && newAuction.currentBidTeam) {
                     setLastBid({
                         team: newAuction.currentBidTeam,
@@ -28,6 +28,9 @@ const Auction = () => {
                     });
                     setShowBidNotification(true);
                     setTimeout(() => setShowBidNotification(false), 3000);
+                    
+                    // Reset timer to 30 seconds when new bid is placed
+                    setTimer(30);
                 }
                 
                 // Check if player was sold (new log entry with SOLD action)
@@ -59,10 +62,24 @@ const Auction = () => {
 
     useEffect(() => {
         if (auction?.status !== 'live') return;
-        setTimer(auction.timerDuration || 30);
-        const t = setInterval(() => setTimer(p => Math.max(0, p - 1)), 1000);
+        
+        // Reset timer when new player starts or when auction starts
+        if (auction?.currentPlayer) {
+            setTimer(30);
+        }
+        
+        const t = setInterval(() => {
+            setTimer(prev => {
+                if (prev <= 1) {
+                    // Timer reached 0 - this should trigger next player on backend
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        
         return () => clearInterval(t);
-    }, [auction?.currentPlayer, auction?.status]);
+    }, [auction?.currentPlayer?._id, auction?.status]); // Use player ID to detect player changes
 
     if (loading) return <div className="loading-screen" style={{ paddingTop: 'var(--nav-height)', minHeight: '100vh' }}><div className="spinner" /></div>;
 
@@ -329,6 +346,17 @@ const Auction = () => {
                         opacity: 0;
                     }
                 }
+                
+                @keyframes timerPulse {
+                    0%, 100% {
+                        transform: scale(1);
+                        text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+                    }
+                    50% {
+                        transform: scale(1.05);
+                        text-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+                    }
+                }
             `}</style>
 
             <div className="page-hero" style={{ padding: '0px 0 48px' }}>
@@ -357,16 +385,7 @@ const Auction = () => {
                             <p>All players have been auctioned. Check the teams page to see squad compositions.</p>
                         </div>
                     ) : (
-                        <div style={{ 
-                            display: 'grid', 
-                            gridTemplateColumns: 'minmax(0, 1fr) minmax(280px, 320px)', 
-                            gap: 24, 
-                            alignItems: 'start',
-                            '@media (max-width: 1024px)': {
-                                gridTemplateColumns: '1fr',
-                                gap: 16
-                            }
-                        }} className="auction-layout">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 
                             {/* Main Auction Panel */}
                             <div className="auction-main">
@@ -378,10 +397,21 @@ const Auction = () => {
                                         </div>
 
                                         {/* Timer */}
-                                        <div className="bid-timer" style={{ marginBottom: 8 }}>
+                                        <div className="bid-timer" style={{ 
+                                            marginBottom: 8,
+                                            color: timer <= 10 ? '#ef4444' : 'var(--gold)',
+                                            animation: timer <= 10 ? 'timerPulse 1s ease-in-out infinite' : 'none'
+                                        }}>
                                             {String(Math.floor(timer / 60)).padStart(2, '0')}:{String(timer % 60).padStart(2, '0')}
                                         </div>
-                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 24 }}>Timer</div>
+                                        <div style={{ 
+                                            fontSize: '0.75rem', 
+                                            color: timer <= 10 ? '#ef4444' : 'var(--text-muted)', 
+                                            marginBottom: 24,
+                                            fontWeight: timer <= 10 ? 600 : 400
+                                        }}>
+                                            {timer <= 10 ? 'GOING... GOING...' : 'Timer'}
+                                        </div>
 
                                         {playerImg ? (
                                             <img src={playerImg} alt={player.name} className="auction-player-img" />
@@ -466,78 +496,114 @@ const Auction = () => {
                                 )}
                             </div>
 
-                            {/* Sidebar: Teams + Queue */}
-                            <div className="auction-sidebar" style={{ 
-                                display: 'flex', 
-                                flexDirection: 'column', 
-                                gap: 16,
-                                order: 2
+                            {/* Teams Section */}
+                            <div style={{ 
+                                background: 'var(--bg-card)', 
+                                border: '1px solid var(--border)', 
+                                borderRadius: 'var(--radius-lg)', 
+                                padding: 24 
                             }}>
-                                {/* Teams Purse */}
+                                <h3 style={{ 
+                                    fontFamily: 'var(--font-heading)', 
+                                    fontSize: '1.1rem', 
+                                    textTransform: 'uppercase', 
+                                    letterSpacing: 2, 
+                                    marginBottom: 20,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <FiUsers style={{ marginRight: 8 }} />Teams Purse
+                                </h3>
+                                <div style={{ 
+                                    display: 'grid', 
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                                    gap: 12 
+                                }}>
+                                    {teams.map(t => {
+                                        const logo = getImageUrl(t.logo);
+                                        const remaining = t.purse - t.purseSpent;
+                                        return (
+                                            <div key={t._id} style={{ 
+                                                display: 'flex', 
+                                                alignItems: 'center', 
+                                                gap: 12, 
+                                                padding: '12px 16px', 
+                                                borderRadius: 10, 
+                                                background: 'var(--bg-glass)',
+                                                border: '1px solid var(--border)',
+                                                minWidth: 0
+                                            }}>
+                                                {logo ? <img src={logo} style={{ width: 32, height: 32, objectFit: 'contain', flexShrink: 0 }} alt="" /> :
+                                                    <div style={{ width: 32, height: 32, background: 'var(--bg-elevated)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', flexShrink: 0, fontWeight: 600 }}>{t.shortName}</div>}
+                                                <div style={{ flex: 1, minWidth: 0 }}>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.name}</div>
+                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t.shortName}</div>
+                                                </div>
+                                                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: remaining > 200000 ? 'var(--green)' : 'var(--red)' }}>
+                                                        ₹{(remaining / 100000).toFixed(1)}L
+                                                    </div>
+                                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>remaining</div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Player Queue */}
+                            {auction.playerQueue?.length > 0 && (
                                 <div style={{ 
                                     background: 'var(--bg-card)', 
                                     border: '1px solid var(--border)', 
                                     borderRadius: 'var(--radius-lg)', 
-                                    padding: 20 
+                                    padding: 24 
                                 }}>
                                     <h3 style={{ 
                                         fontFamily: 'var(--font-heading)', 
-                                        fontSize: '0.9rem', 
+                                        fontSize: '1.1rem', 
                                         textTransform: 'uppercase', 
                                         letterSpacing: 2, 
-                                        marginBottom: 16,
+                                        marginBottom: 20,
                                         display: 'flex',
-                                        alignItems: 'center'
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
                                     }}>
-                                        <FiUsers style={{ marginRight: 6 }} />Teams
+                                        <FiClock style={{ marginRight: 8 }} />Upcoming Players ({auction.playerQueue.length})
                                     </h3>
                                     <div style={{ 
                                         display: 'grid', 
                                         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                                        gap: 8 
-                                    }} className="teams-grid">
-                                        {teams.map(t => {
-                                            const logo = getImageUrl(t.logo);
-                                            const remaining = t.purse - t.purseSpent;
-                                            return (
-                                                <div key={t._id} style={{ 
-                                                    display: 'flex', 
-                                                    alignItems: 'center', 
-                                                    gap: 10, 
-                                                    padding: '8px 10px', 
-                                                    borderRadius: 8, 
-                                                    background: 'var(--bg-glass)',
-                                                    minWidth: 0
-                                                }}>
-                                                    {logo ? <img src={logo} style={{ width: 24, height: 24, objectFit: 'contain', flexShrink: 0 }} alt="" /> :
-                                                        <div style={{ width: 24, height: 24, background: 'var(--bg-elevated)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', flexShrink: 0 }}>{t.shortName}</div>}
-                                                    <span style={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.shortName}</span>
-                                                    <span style={{ fontSize: '0.75rem', color: remaining > 200000 ? 'var(--green)' : 'var(--red)', flexShrink: 0 }}>
-                                                        ₹{(remaining / 100000).toFixed(1)}L
-                                                    </span>
+                                        gap: 10,
+                                        maxHeight: 400, 
+                                        overflowY: 'auto' 
+                                    }}>
+                                        {auction.playerQueue.slice(0, 20).map((p, i) => (
+                                            <div key={p._id || i} style={{ 
+                                                padding: '10px 14px', 
+                                                borderRadius: 8, 
+                                                background: i === 0 ? 'rgba(212,175,55,0.1)' : 'var(--bg-glass)', 
+                                                border: i === 0 ? '1px solid rgba(212,175,55,0.3)' : '1px solid var(--border)',
+                                                fontSize: '0.85rem', 
+                                                display: 'flex', 
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center'
+                                            }}>
+                                                <div>
+                                                    <div style={{ fontWeight: 600, marginBottom: 2 }}>
+                                                        {i === 0 ? '⏳ ' : `${i + 1}. `}{p.name}
+                                                    </div>
+                                                    <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{p.role}</div>
                                                 </div>
-                                            );
-                                        })}
+                                                <div style={{ color: 'var(--gold)', fontSize: '0.75rem', fontWeight: 600 }}>
+                                                    ₹{(p.basePrice / 1000).toFixed(0)}K
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-
-                                {/* Player Queue */}
-                                {auction.playerQueue?.length > 0 && (
-                                    <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: 20 }}>
-                                        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 16 }}>
-                                            <FiClock style={{ marginRight: 6 }} />Upcoming ({auction.playerQueue.length})
-                                        </h3>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 240, overflowY: 'auto' }}>
-                                            {auction.playerQueue.slice(0, 10).map((p, i) => (
-                                                <div key={p._id || i} style={{ padding: '6px 10px', borderRadius: 6, background: 'var(--bg-glass)', fontSize: '0.8rem', display: 'flex', justifyContent: 'space-between' }}>
-                                                    <span>{i === 0 ? '⏳ ' : ''}{p.name}</span>
-                                                    <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>{p.role}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            )}
                         </div>
                     )}
                 </div>
