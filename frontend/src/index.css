@@ -1611,3 +1611,183 @@ select.form-control option {
 .mb-8 {
   margin-bottom: 32px;
 }
+/* ============================================
+   AUCTION PAGE RESPONSIVE STYLES
+============================================ */
+
+.auction-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .auction-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .auction-sidebar {
+    order: -1 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .auction-sidebar {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .auction-screen {
+    padding: 20px !important;
+  }
+  
+  .auction-player-img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  
+  .bid-timer {
+    font-size: 3rem !important;
+  }
+  
+  .current-bid {
+    font-size: 2.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .auction-screen {
+    padding: 16px !important;
+  }
+  
+  .auction-player-img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  
+  .bid-timer {
+    font-size: 2.5rem !important;
+  }
+  
+  .current-bid {
+    font-size: 2rem !important;
+  }
+  
+  .page-hero h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  .page-hero p {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Auction specific components */
+.auction-screen {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  text-align: center;
+}
+
+.bid-timer {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.auction-player-img {
+  width: 160px;
+  height: 160px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  border: 3px solid var(--border);
+  margin: 0 auto 16px;
+  display: block;
+}
+
+.current-bid {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+/* Responsive bid notification */
+@media (max-width: 768px) {
+  .bid-notification {
+    min-width: 90vw !important;
+    padding: 30px 40px !important;
+  }
+  
+  .bid-notification .bid-amount {
+    font-size: 3rem !important;
+  }
+  
+  .bid-notification .team-name {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .bid-notification {
+    padding: 20px 30px !important;
+  }
+  
+  .bid-notification .bid-amount {
+    font-size: 2.5rem !important;
+  }
+  
+  .bid-notification .team-name {
+    font-size: 1.2rem !important;
+  }
+}
+/* Responsive sold notification */
+@media (max-width: 768px) {
+  .sold-notification {
+    min-width: 90vw !important;
+    padding: 30px 40px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .sold-notification {
+    padding: 20px 30px !important;
+  }
+  
+  .sold-notification div[style*="font-size: 2.5rem"] {
+    font-size: 2rem !important;
+  }
+  
+  .sold-notification div[style*="font-size: 2rem"] {
+    font-size: 1.5rem !important;
+  }
+}
+/* Teams grid responsive */
+@media (max-width: 1024px) {
+  .teams-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .teams-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .teams-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

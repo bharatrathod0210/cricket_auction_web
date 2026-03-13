@@ -75,7 +75,7 @@ const Auction = () => {
         <div style={{ paddingTop: 'var(--nav-height)' }}>
             {/* Bid Notification */}
             {showBidNotification && lastBid && (
-                <div style={{
+                <div className="bid-notification" style={{
                     position: 'fixed',
                     top: '50%',
                     left: '50%',
@@ -128,7 +128,7 @@ const Auction = () => {
                         NEW BID!
                     </div>
                     
-                    <div style={{ 
+                    <div className="bid-amount" style={{ 
                         fontSize: '4.5rem', 
                         fontFamily: 'var(--font-display)', 
                         fontWeight: 900, 
@@ -144,7 +144,7 @@ const Auction = () => {
                         ₹{(lastBid.amount / 1000).toFixed(0)}K
                     </div>
                     
-                    <div style={{ 
+                    <div className="team-name" style={{ 
                         fontSize: '2rem', 
                         fontFamily: 'var(--font-heading)',
                         color: '#fff', 
@@ -209,7 +209,7 @@ const Auction = () => {
                     </div>
 
                     {/* Sold Notification */}
-                    <div style={{
+                    <div className="sold-notification" style={{
                         position: 'fixed',
                         top: '50%',
                         left: '50%',
@@ -357,10 +357,19 @@ const Auction = () => {
                             <p>All players have been auctioned. Check the teams page to see squad compositions.</p>
                         </div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, alignItems: 'start' }}>
+                        <div style={{ 
+                            display: 'grid', 
+                            gridTemplateColumns: 'minmax(0, 1fr) minmax(280px, 320px)', 
+                            gap: 24, 
+                            alignItems: 'start',
+                            '@media (max-width: 1024px)': {
+                                gridTemplateColumns: '1fr',
+                                gap: 16
+                            }
+                        }} className="auction-layout">
 
                             {/* Main Auction Panel */}
-                            <div>
+                            <div className="auction-main">
                                 {/* Current Player */}
                                 {player ? (
                                     <div className="auction-screen" style={{ marginBottom: 24 }}>
@@ -458,22 +467,52 @@ const Auction = () => {
                             </div>
 
                             {/* Sidebar: Teams + Queue */}
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                            <div className="auction-sidebar" style={{ 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                gap: 16,
+                                order: 2
+                            }}>
                                 {/* Teams Purse */}
-                                <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: 20 }}>
-                                    <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 16 }}>
+                                <div style={{ 
+                                    background: 'var(--bg-card)', 
+                                    border: '1px solid var(--border)', 
+                                    borderRadius: 'var(--radius-lg)', 
+                                    padding: 20 
+                                }}>
+                                    <h3 style={{ 
+                                        fontFamily: 'var(--font-heading)', 
+                                        fontSize: '0.9rem', 
+                                        textTransform: 'uppercase', 
+                                        letterSpacing: 2, 
+                                        marginBottom: 16,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}>
                                         <FiUsers style={{ marginRight: 6 }} />Teams
                                     </h3>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                    <div style={{ 
+                                        display: 'grid', 
+                                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                                        gap: 8 
+                                    }} className="teams-grid">
                                         {teams.map(t => {
                                             const logo = getImageUrl(t.logo);
                                             const remaining = t.purse - t.purseSpent;
                                             return (
-                                                <div key={t._id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px', borderRadius: 8, background: 'var(--bg-glass)' }}>
-                                                    {logo ? <img src={logo} style={{ width: 24, height: 24, objectFit: 'contain' }} alt="" /> :
-                                                        <div style={{ width: 24, height: 24, background: 'var(--bg-elevated)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem' }}>{t.shortName}</div>}
-                                                    <span style={{ flex: 1, fontSize: '0.8rem', fontWeight: 600 }}>{t.shortName}</span>
-                                                    <span style={{ fontSize: '0.75rem', color: remaining > 200000 ? 'var(--green)' : 'var(--red)' }}>
+                                                <div key={t._id} style={{ 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    gap: 10, 
+                                                    padding: '8px 10px', 
+                                                    borderRadius: 8, 
+                                                    background: 'var(--bg-glass)',
+                                                    minWidth: 0
+                                                }}>
+                                                    {logo ? <img src={logo} style={{ width: 24, height: 24, objectFit: 'contain', flexShrink: 0 }} alt="" /> :
+                                                        <div style={{ width: 24, height: 24, background: 'var(--bg-elevated)', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', flexShrink: 0 }}>{t.shortName}</div>}
+                                                    <span style={{ flex: 1, fontSize: '0.8rem', fontWeight: 600, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.shortName}</span>
+                                                    <span style={{ fontSize: '0.75rem', color: remaining > 200000 ? 'var(--green)' : 'var(--red)', flexShrink: 0 }}>
                                                         ₹{(remaining / 100000).toFixed(1)}L
                                                     </span>
                                                 </div>
