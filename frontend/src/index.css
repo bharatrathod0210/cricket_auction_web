@@ -701,7 +701,7 @@ select.form-control option {
   .grid-2 {
     grid-template-columns: 0.6fr;
     max-width: 300px;
-    justify-content: center;
+   margin-left: 15%;
   }
 
   .section {
