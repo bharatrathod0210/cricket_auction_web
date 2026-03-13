@@ -13,15 +13,12 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'https://rpl-sihor.vercel.app',
-        'https://rpl-sihor-backend.vercel.app',
-        /\.vercel\.app$/
-    ],
-    credentials: true
-}));
+app.use(
+    cors({
+        origin: "https://rpl-sihor.vercel.app",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
+    }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -94,9 +91,9 @@ app.get('/api/cloudinary-status', (req, res) => {
     const hasCloudName = !!process.env.CLOUDINARY_CLOUD_NAME;
     const hasApiKey = !!process.env.CLOUDINARY_API_KEY;
     const hasApiSecret = !!process.env.CLOUDINARY_API_SECRET;
-    
+
     const isConfigured = hasCloudName && hasApiKey && hasApiSecret;
-    
+
     res.json({
         success: true,
         cloudinary: {
@@ -104,8 +101,8 @@ app.get('/api/cloudinary-status', (req, res) => {
             cloudName: hasCloudName ? '✅ Set' : '❌ Missing',
             apiKey: hasApiKey ? '✅ Set' : '❌ Missing',
             apiSecret: hasApiSecret ? '✅ Set' : '❌ Missing',
-            message: isConfigured 
-                ? 'Cloudinary is configured' 
+            message: isConfigured
+                ? 'Cloudinary is configured'
                 : 'Cloudinary credentials are missing. Add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET to environment variables.'
         }
     });
@@ -143,52 +140,52 @@ app.use((err, req, res, next) => {
     console.error('Error name:', err.name);
     console.error('Error message:', err.message);
     console.error('Error stack:', err.stack);
-    
+
     // Handle multer errors
     if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(400).json({ 
-            success: false, 
-            message: 'File size too large. Maximum 5MB allowed per file.' 
+        return res.status(400).json({
+            success: false,
+            message: 'File size too large. Maximum 5MB allowed per file.'
         });
     }
-    
+
     if (err.message && err.message.includes('Invalid file type')) {
-        return res.status(400).json({ 
-            success: false, 
-            message: err.message 
+        return res.status(400).json({
+            success: false,
+            message: err.message
         });
     }
-    
+
     if (err.message && err.message.includes('Only image files')) {
-        return res.status(400).json({ 
-            success: false, 
-            message: 'Only image files are allowed (JPG, PNG, GIF, WEBP)' 
+        return res.status(400).json({
+            success: false,
+            message: 'Only image files are allowed (JPG, PNG, GIF, WEBP)'
         });
     }
-    
+
     // Handle Cloudinary errors
     if (err.message && (err.message.includes('Cloudinary') || err.message.includes('signature'))) {
-        return res.status(500).json({ 
-            success: false, 
-            message: 'File upload service error. Please contact administrator.' 
+        return res.status(500).json({
+            success: false,
+            message: 'File upload service error. Please contact administrator.'
         });
     }
-    
+
     // Handle multer field errors
     if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-        return res.status(400).json({ 
-            success: false, 
-            message: 'Unexpected file field. Please check your form.' 
+        return res.status(400).json({
+            success: false,
+            message: 'Unexpected file field. Please check your form.'
         });
     }
-    
+
     // Generic error response
-    res.status(err.status || 500).json({ 
-        success: false, 
+    res.status(err.status || 500).json({
+        success: false,
         message: err.message || 'Internal Server Error',
-        ...(process.env.NODE_ENV === 'development' && { 
+        ...(process.env.NODE_ENV === 'development' && {
             stack: err.stack,
-            errorType: err.name 
+            errorType: err.name
         })
     });
 });
