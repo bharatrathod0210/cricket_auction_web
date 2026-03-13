@@ -15,10 +15,15 @@ const app = express();
 // Middleware
 app.use(
     cors({
-        origin: "https://rpl-sihor.vercel.app",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true,
-    }));
+        origin: [
+            "http://localhost:5173",
+            "https://rpl-sihor.vercel.app"
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true
+    })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
