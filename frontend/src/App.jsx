@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 // Public
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Teams from './pages/Teams';
 import TeamDetail from './pages/TeamDetail';
@@ -46,6 +47,7 @@ const ProtectedAdmin = ({ children }) => {
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
       <Toaster
         position="top-right"
         toastOptions={{
