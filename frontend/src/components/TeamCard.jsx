@@ -9,7 +9,7 @@ const TeamCard = ({ team }) => {
         <Link to={`/teams/${team._id}`} className="team-card" style={{ display: 'block', width: 'auto' }}>
             <div className="team-banner" style={{ background: `linear-gradient(135deg, ${team.color}22, ${team.color}44)`, padding: '70px 0' }}>
                 {logoSrc ? (
-                    <img src={logoSrc} alt={team.name} className="team-logo" style={{ width: 240, height: 140, objectFit: 'contain' }} />
+                    <img src={logoSrc} alt={team.name} className="team-logo" style={{ width: 260, height: 140, objectFit: 'contain' }} />
                 ) : (
                     <div style={{
                         width: 120, height: 120, background: 'var(--bg-elevated)',
