@@ -1637,10 +1637,10 @@ select.form-control option {
     padding: 20px !important;
   }
   
-  .auction-player-img {
+  /* .auction-player-img {
     width: 120px !important;
     height: 120px !important;
-  }
+  } */
   
   .bid-timer {
     font-size: 3rem !important;
@@ -1670,10 +1670,10 @@ select.form-control option {
     padding: 16px !important;
   }
   
-  .auction-player-img {
+  /* .auction-player-img {
     width: 100px !important;
     height: 100px !important;
-  }
+  } */
   
   .bid-timer {
     font-size: 2.5rem !important;
