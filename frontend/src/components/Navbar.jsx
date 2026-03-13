@@ -22,7 +22,6 @@ const Navbar = () => {
         { to: '/players', label: 'Players' },
         { to: '/matches', label: 'Matches' },
         { to: '/auction', label: 'Auction' },
-        { to: '/tournament-stats', label: 'Stats' },
         { to: '/register', label: 'Register', highlight: true },
     ];
 
